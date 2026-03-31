@@ -1,0 +1,112 @@
+@keyframes we-fall {
+	0% {
+		transform: rotate(var(--we-angle, 12deg)) translateY(0);
+		opacity: 0;
+	}
+	6% {
+		opacity: var(--we-opacity, 0.35);
+	}
+	80% {
+		opacity: var(--we-opacity, 0.35);
+	}
+	100% {
+		transform: rotate(var(--we-angle, 12deg)) translateY(145vh);
+		opacity: 0;
+	}
+}
+
+@keyframes we-ripple {
+	0%,
+	82% {
+		opacity: 0;
+		transform: translate(-50%, 66%) skewX(-14deg) scale(0.12, 0.02);
+	}
+	92% {
+		opacity: calc(var(--we-opacity, 0.35) * 0.55);
+		transform: translate(-50%, 66%) skewX(-14deg) scale(1, 0.22);
+	}
+	100% {
+		opacity: 0;
+		transform: translate(-50%, 66%) skewX(-14deg) scale(2.4, 0.55);
+	}
+}
+
+.root {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	overflow: hidden;
+	color: var(--foreground);
+	--we-angle: 12deg;
+	/*
+		Containment helps keep the animation layer from triggering unnecessary
+		layout/paint work outside of its own subtree.
+	*/
+	contain: layout paint;
+}
+
+.drop {
+	position: absolute;
+	top: -24vh;
+	left: calc(var(--we-impact-x, 50) * 1vw);
+	width: 1px;
+	height: var(--we-len, 90px);
+	transform-origin: center;
+	border-radius: 9999px;
+	opacity: var(--we-opacity, 0.35);
+	background: linear-gradient(
+		180deg,
+		transparent,
+		currentColor 28%,
+		currentColor 58%,
+		transparent
+	);
+	filter: blur(0.25px);
+	will-change: transform, opacity;
+	/* Drops should always render above ripples regardless of DOM insertion order. */
+	z-index: 1;
+	animation-name: we-fall;
+	animation-duration: calc(var(--we-dur-ms, 1200) * 1ms);
+	animation-timing-function: linear;
+	animation-delay: 0ms;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+
+.ripple {
+	position: absolute;
+	left: calc(var(--we-impact-x, 50) * 1vw);
+	bottom: -2px;
+	width: 9rem;
+	height: 1.75rem;
+	border-radius: 9999px;
+	background: radial-gradient(
+		closest-side,
+		transparent 60%,
+		currentColor 61% 62%,
+		transparent 63% 74%,
+		currentColor 75% 76%,
+		transparent 77% 86%,
+		currentColor 87% 88%,
+		transparent 89%
+	);
+	opacity: 0;
+	filter: blur(0.2px);
+	will-change: transform, opacity;
+	/* Ripples should sit behind drops to read like surface disturbance. */
+	z-index: 0;
+	transform: translate(-50%, 66%) skewX(-14deg) scale(0.12, 0.02);
+	animation-name: we-ripple;
+	animation-duration: calc(var(--we-dur-ms, 1200) * 1ms);
+	animation-timing-function: ease-out;
+	animation-delay: 0ms;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.root {
+		display: none;
+	}
+}
