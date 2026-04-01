@@ -34,7 +34,10 @@ import { testimonials } from "@/data/testimonials";
 export default function Home() {
 	return (
 		<div>
-			<section className="relative flex min-h-dvh snap-start snap-always flex-col justify-center py-12 md:py-16">
+			<section
+				id="home-hero"
+				className="relative flex min-h-dvh snap-start snap-always flex-col justify-center py-12 md:py-16"
+			>
 				<div className="relative z-10 space-y-4">
 					<h1 className="text-5xl leading-[1.05] font-semibold tracking-tight md:text-6xl">
 						Shaun Anderton

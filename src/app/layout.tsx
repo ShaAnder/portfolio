@@ -12,6 +12,7 @@ import {
 	WeatherEffects,
 	WeatherEffectsToggle,
 } from "@/components/site/weather-effects";
+import { CityscapeParallax } from "@/components/site/cityscape";
 
 /*
 	RootLayout
@@ -67,6 +68,15 @@ export default function RootLayout({
 					enableColorScheme
 				>
 					<WeatherEffects>
+						<div
+							id="home-bg"
+							className="fixed inset-0 z-0 pointer-events-none"
+							aria-hidden="true"
+						>
+							<div id="home-bg-rain" className="absolute inset-0" />
+							<div id="home-bg-city" className="absolute inset-0" />
+						</div>
+						<CityscapeParallax mountId="home-bg-city" />
 						<SiteHeader />
 
 						<div className="fixed top-4 right-4 z-40 flex items-center gap-2">

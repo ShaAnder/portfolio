@@ -34,7 +34,7 @@
 .root {
 	position: fixed;
 	inset: 0;
-	z-index: 0;
+	z-index: 1;
 	pointer-events: none;
 	overflow: hidden;
 	color: var(--foreground);
@@ -44,6 +44,19 @@
 		layout/paint work outside of its own subtree.
 	*/
 	contain: layout paint;
+}
+
+/*
+	Back rain layer
+	--------------
+	When portaled into the fixed `#home-bg` container, we want the overlay to
+	fill that container and sit behind the cityscape.
+	(The `#home-bg` container itself stays behind the main content.)
+*/
+.rootBack {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
 }
 
 .drop {

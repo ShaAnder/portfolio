@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 
 import { useWeatherEffects } from "@/components/site/weather-effects/WeatherEffectsProvider";
 import styles from "@/components/site/weather-effects/WeatherEffects.module.css";
@@ -51,17 +52,24 @@ type RenderState = "on" | "stopping" | "off";
  */
 
 export function WeatherEffectsBackground({
-	maxDrops = 50,
+	maxDrops = 180,
+	mountId,
+	layer = "front",
 }: {
 	maxDrops?: number;
+	mountId?: string;
+	layer?: "front" | "back";
 }) {
 	const { enabled, mounted } = useWeatherEffects();
 	const rootRef = React.useRef<HTMLDivElement | null>(null);
+	const [mountNode, setMountNode] = React.useState<HTMLElement | null>(null);
 	const instancesRef = React.useRef<DropInstance[]>([]);
 
 	const spawnTimerRef = React.useRef<number | null>(null);
 	const clearLayerTimerRef = React.useRef<number | null>(null);
-	const spawnIntervalRef = React.useRef(260);
+	// Rain density is controlled by maxDrops + spawn cadence.
+	// (Both layers share these defaults unless overridden via props.)
+	const spawnIntervalRef = React.useRef(72);
 	const phaseRef = React.useRef<RenderState>("off");
 	const stoppingSpawnsRef = React.useRef(0);
 	const stoppingStartedAtRef = React.useRef<number | null>(null);
@@ -69,6 +77,28 @@ export function WeatherEffectsBackground({
 	const visibilityRef = React.useRef<"visible" | "hidden">(
 		typeof document === "undefined" ? "visible" : document.visibilityState,
 	);
+
+	// Resolve portal mount node (for back-rain) after mount.
+	// The mount element can appear later in the tree than this component.
+	React.useEffect(() => {
+		if (!mounted || !mountId) return;
+		let raf = 0;
+		let tries = 0;
+
+		const find = () => {
+			const node = document.getElementById(mountId);
+			if (node) {
+				setMountNode(node);
+				return;
+			}
+			tries += 1;
+			if (tries > 30) return;
+			raf = requestAnimationFrame(find);
+		};
+
+		find();
+		return () => cancelAnimationFrame(raf);
+	}, [mounted, mountId]);
 
 	/** Clears and nulls the active spawn timer. */
 	const clearSpawnTimer = React.useCallback(() => {
@@ -211,8 +241,8 @@ export function WeatherEffectsBackground({
 
 			if (phase === "on") {
 				spawnIntervalRef.current = Math.max(
-					56,
-					Math.floor(spawnIntervalRef.current * 0.9),
+					20,
+					Math.floor(spawnIntervalRef.current * 0.95),
 				);
 				spawnTimerRef.current = window.setTimeout(
 					tick,
@@ -224,14 +254,14 @@ export function WeatherEffectsBackground({
 			stoppingSpawnsRef.current += 1;
 			const startedAt = stoppingStartedAtRef.current;
 			const elapsed = startedAt ? Date.now() - startedAt : 0;
-			if (elapsed > 2800) {
+			if (elapsed > 5600) {
 				spawnIntervalRef.current = Math.min(
 					10400,
 					Math.floor(spawnIntervalRef.current * 1.25),
 				);
 			}
 
-			if (stoppingSpawnsRef.current >= 24 || spawnIntervalRef.current >= 9600) {
+			if (stoppingSpawnsRef.current >= 48 || spawnIntervalRef.current >= 9600) {
 				phaseRef.current = "off";
 				clearSpawnTimer();
 				scheduleLayerClear(20000);
@@ -305,7 +335,7 @@ export function WeatherEffectsBackground({
 			if (root) root.dataset.state = "on";
 			stoppingSpawnsRef.current = 0;
 			stoppingStartedAtRef.current = null;
-			spawnIntervalRef.current = 260;
+			spawnIntervalRef.current = 58;
 			scheduleNextSpawn();
 			return () => {
 				clearSpawnTimer();
@@ -347,12 +377,23 @@ export function WeatherEffectsBackground({
 
 	// Render a single inert container; all children are spawned imperatively.
 	if (!mounted) return null;
-	return (
+
+	const rootClassName =
+		layer === "back" ? `${styles.root} ${styles.rootBack}` : styles.root;
+
+	const layerEl = (
 		<div
 			ref={rootRef}
-			className={styles.root}
+			className={rootClassName}
 			data-state="off"
 			aria-hidden="true"
 		/>
 	);
+
+	if (mountId) {
+		if (!mountNode) return null;
+		return createPortal(layerEl, mountNode);
+	}
+
+	return layerEl;
 }

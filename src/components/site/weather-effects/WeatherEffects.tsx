@@ -17,6 +17,7 @@ import { WeatherEffectsBackground } from "@/components/site/weather-effects/Weat
 export function WeatherEffects({ children }: { children: React.ReactNode }) {
 	return (
 		<WeatherEffectsProvider>
+			<WeatherEffectsBackground layer="back" mountId="home-bg-rain" />
 			<WeatherEffectsBackground />
 			{children}
 		</WeatherEffectsProvider>
