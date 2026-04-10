@@ -1,3 +1,5 @@
+import { clamp } from "@/lib/math";
+
 export type ParticleNetworkTheme = "light" | "dark";
 
 export type ParticleNetworkConfig = {
@@ -35,10 +37,6 @@ export type Particle = {
 	vx: number;
 	vy: number;
 };
-
-function clamp(value: number, min: number, max: number) {
-	return Math.min(max, Math.max(min, value));
-}
 
 function randSigned() {
 	return Math.random() - 0.5;

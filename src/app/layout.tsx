@@ -5,11 +5,11 @@ import "./globals.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 
-import { SiteHeader } from "@/components/site/SiteHeader";
-import { MobileNav } from "@/components/site/MobileNav";
-import { ParticleNetworkBackground } from "@/components/site/ParticleNetworkBackground";
-import { ThemeToggle } from "@/components/site/ThemeToggle";
-import { ThemeProvider } from "@/components/site/ThemeProvider";
+import { SiteHeader } from "@/features/navigation/SiteHeader";
+import { MobileNav } from "@/features/navigation/MobileNav";
+import { ParticleNetworkBackground } from "@/features/particle-network/ParticleNetworkBackground";
+import { ThemeToggle } from "@/features/theme/ThemeToggle";
+import { ThemeProvider } from "@/features/theme/ThemeProvider";
 
 const fontSans = Manrope({
 	subsets: ["latin"],
@@ -76,6 +76,7 @@ export default function RootLayout({
 					// Default to OS preference, but allow explicit user override.
 					defaultTheme="system"
 					enableSystem
+					disableTransitionOnChange
 					// Keeps native controls (scrollbars/forms) aligned with the active theme.
 					enableColorScheme
 				>

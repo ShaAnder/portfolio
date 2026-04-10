@@ -8,7 +8,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { ProjectDetailsDialog } from "@/components/site/ProjectDetailsDialog";
+import { ProjectDetailsDialog } from "@/features/projects/ProjectDetailsDialog";
 import { projects } from "@/data/projects";
 
 /**

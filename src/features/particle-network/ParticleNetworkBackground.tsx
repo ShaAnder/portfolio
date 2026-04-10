@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { clamp01, lerp } from "@/lib/math";
 import {
 	defaultParticleNetworkConfig,
 	ParticleNetworkEngine,
@@ -39,9 +40,6 @@ export function ParticleNetworkBackground({
 			// - "medium" screens: ~1.25
 			// - large/desktop: ~1.5
 			if (width <= 768) return 1;
-
-			const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-			const clamp01 = (t: number) => Math.min(1, Math.max(0, t));
 
 			// 769 -> 1024 ramps 1.0 -> 1.25
 			if (width <= 1024) {
@@ -89,24 +87,43 @@ export function ParticleNetworkBackground({
 		// Theme changes happen by toggling a class on <html>. We listen for that.
 		const observer = new MutationObserver(() => {
 			setTheme();
-			engine.draw();
+			// If we're animating, the next RAF will render the new theme.
+			// Only force a redraw for the static (reduced-motion) case.
+			if (reduceMotion) engine.draw();
 		});
 		observer.observe(document.documentElement, {
 			attributes: true,
-			attributeFilter: ["class", "style"],
+			attributeFilter: ["class"],
 		});
 
-		if (!reduceMotion) {
+		const start = () => {
+			if (reduceMotion) return;
+			if (animationFrameId) return;
 			const tick = () => {
 				engine.step();
 				animationFrameId = window.requestAnimationFrame(tick);
 			};
 			animationFrameId = window.requestAnimationFrame(tick);
-		}
+		};
+
+		const stop = () => {
+			if (!animationFrameId) return;
+			window.cancelAnimationFrame(animationFrameId);
+			animationFrameId = 0;
+		};
+
+		const onVisibilityChange = () => {
+			if (document.visibilityState === "hidden") stop();
+			else start();
+		};
+		document.addEventListener("visibilitychange", onVisibilityChange);
+
+		start();
 
 		return () => {
 			window.removeEventListener("resize", onResize);
 			observer.disconnect();
+			document.removeEventListener("visibilitychange", onVisibilityChange);
 			if (animationFrameId) window.cancelAnimationFrame(animationFrameId);
 		};
 	}, []);

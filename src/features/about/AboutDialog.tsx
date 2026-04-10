@@ -37,10 +37,6 @@ export function AboutDialog({
 						Based in Ireland, targeting remote/hybrid junior roles across
 						Ireland and the UK.
 					</p>
-					<p>
-						This portfolio intentionally showcases only four new,
-						production-style builds (no older betas).
-					</p>
 				</div>
 			</DialogContent>
 		</Dialog>

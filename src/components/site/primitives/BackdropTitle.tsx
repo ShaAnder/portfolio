@@ -18,10 +18,10 @@ export function BackdropTitle({ text, className }: BackdropTitleProps) {
 		<div aria-hidden className={cn("select-none opacity-35", className)}>
 			<div
 				className={cn(
-					"leading-none font-semibold uppercase text-foreground",
+					"font-heading leading-none font-semibold uppercase text-foreground",
 					"tracking-[0.08em]",
 					"text-[clamp(3.375rem,9vw,7.5rem)]",
-					"[-webkit-text-stroke:1.5px_currentColor]",
+					"[-webkit-text-stroke:1.25px_currentColor]",
 					"[-webkit-text-fill-color:transparent]",
 				)}
 			>

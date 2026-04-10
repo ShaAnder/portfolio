@@ -9,14 +9,14 @@ import {
 	faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
-import { ProjectCard } from "@/components/site/ProjectCard";
-import { ProjectDetailsDialog } from "@/components/site/ProjectDetailsDialog";
-import { Section } from "@/components/site/Section";
-import { TestimonialCard } from "@/components/site/TestimonialCard";
-import { Badge } from "@/components/ui/badge";
+import { ProjectCard } from "@/features/projects/ProjectCard";
+import { ProjectDetailsDialog } from "@/features/projects/ProjectDetailsDialog";
+import { AboutSection } from "@/features/about/AboutSection";
+import { Section } from "@/components/site/primitives/Section";
+import { TestimonialCard } from "@/features/testimonials/TestimonialCard";
+import { SkillHighlights } from "@/features/skills/SkillHighlights";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { projects } from "@/data/projects";
-import { skillGroups } from "@/data/skills";
 import { testimonials } from "@/data/testimonials";
 
 /*
@@ -195,58 +195,21 @@ export default function Home() {
 				</div>
 			</section>
 
-			<Section id="about" title="About">
-				<div className="max-w-3xl space-y-4 text-muted-foreground">
-					<p>
-						I’m Shaun, a junior full stack developer based in Ireland, currently
-						looking for remote or hybrid roles across Ireland and the UK.
-					</p>
-					<p>
-						I’ve always loved building things. That started with learning to
-						solder when I was younger and turned into a long-running interest in
-						IT, which naturally led me into software development.
-					</p>
-					<p>
-						I’m most at home with React, Next.js, and TypeScript, and I’m
-						comfortable working end-to-end with Django and Supabase. I’m also
-						gaining hands-on experience with Salesforce (Apex + LWC).
-					</p>
-					<p>
-						I enjoy building production-style web apps where the experience
-						feels calm and intentional: clean UI, accessible patterns, and code
-						that’s straightforward to maintain.
-					</p>
-					<p>
-						I’m the kind of developer who cares about the “last 10%” too:
-						responsive layout, performance, and the small interactions that make
-						a product feel polished.
-					</p>
-					<p>
-						This portfolio intentionally showcases only four new,
-						production-style builds (no older betas).
-					</p>
-				</div>
+			<Section
+				id="about"
+				title="About"
+				className="min-h-0 h-dvh [&>div:last-child]:items-start [&>div:last-child>div]:h-full [&>div:last-child>div]:min-h-0"
+			>
+				<AboutSection />
 			</Section>
 
-			<Section id="skills" title="Skills">
+			<Section
+				id="skills"
+				title="Skills"
+				className="min-h-0 h-dvh pb-4 md:pb-6 [&>div:last-child]:items-start"
+			>
 				<div className="space-y-4">
-					<p className="text-sm font-medium tracking-wide text-muted-foreground">
-						React • Next.js • TypeScript • Django • Supabase • Salesforce
-					</p>
-					<div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-						{skillGroups.map((group) => (
-							<div key={group.title} className="rounded-lg border p-3">
-								<div className="font-medium">{group.title}</div>
-								<div className="mt-3 flex flex-wrap gap-2">
-									{group.skills.map((skill) => (
-										<Badge key={skill} variant="outline">
-											{skill}
-										</Badge>
-									))}
-								</div>
-							</div>
-						))}
-					</div>
+					<SkillHighlights />
 				</div>
 			</Section>
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button-variants";
 
-import { navItems } from "@/components/site/navigation";
+import { navItems } from "@/features/navigation/navigation";
 
 /**
  * SiteHeader

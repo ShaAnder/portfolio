@@ -65,9 +65,10 @@ export function ThemeToggle({ className }: { className?: string }) {
 		if (startViewTransition) {
 			startViewTransition(applyDomTheme);
 
-			// next-themes applies the class in an effect; syncing it after the transition
-			// avoids a second DOM update in the middle of the animation.
-			window.setTimeout(() => setTheme(nextTheme), 260);
+			// Keep next-themes in sync ASAP so the UI doesn't feel "laggy".
+			// In practice, because the class is already applied, next-themes should not
+			// cause a second visible flip.
+			window.requestAnimationFrame(() => setTheme(nextTheme));
 			return;
 		}
 
