@@ -42,15 +42,22 @@ export default function Home() {
 				<div className="relative z-10 mx-auto w-full max-w-5xl">
 					<div className="flex flex-col items-center gap-10 min-[769px]:flex-row min-[769px]:items-center min-[769px]:justify-between min-[769px]:gap-14">
 						<div className="order-1 flex w-full justify-center min-[769px]:order-2 min-[769px]:w-auto">
-							<div className="relative mx-auto size-40 overflow-hidden rounded-full border border-border min-[769px]:size-64 lg:size-80 xl:size-96">
-								<Image
-									src="/images/profile.jpg"
-									alt="Shaun Anderton"
-									fill
-									priority
-									className="object-cover object-[50%_10%] scale-[1.12]"
-									sizes="(min-width: 1280px) 384px, (min-width: 1024px) 320px, (min-width: 769px) 256px, 160px"
+							<div className="relative mx-auto size-40 rounded-full min-[769px]:size-64 lg:size-80 xl:size-96">
+								<div
+									aria-hidden="true"
+									className="absolute -inset-3 rounded-full bg-black/30 blur-xl transition-colors duration-700 delay-1000 dark:bg-white/15"
 								/>
+
+								<div className="relative size-full overflow-hidden rounded-full border border-border">
+									<Image
+										src="/images/profile.jpg"
+										alt="Shaun Anderton"
+										fill
+										priority
+										className="object-cover object-[50%_10%] scale-[1.12]"
+										sizes="(min-width: 1280px) 384px, (min-width: 1024px) 320px, (min-width: 769px) 256px, 160px"
+									/>
+								</div>
 							</div>
 						</div>
 
@@ -184,13 +191,13 @@ export default function Home() {
 									/>
 								</Link>
 							</div>
-
-							<div
-								aria-hidden="true"
-								className="mt-10 hidden h-px w-24 bg-border/60 min-[769px]:block min-[769px]:mt-12"
-							/>
 						</div>
 					</div>
+
+					<div
+						aria-hidden="true"
+						className="mt-10 hidden h-px w-24 bg-border/60 min-[769px]:block min-[769px]:mt-12"
+					/>
 				</div>
 			</section>
 
