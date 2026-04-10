@@ -5,7 +5,6 @@ import "./globals.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 
-import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { MobileNav } from "@/components/site/MobileNav";
 import { ParticleNetworkBackground } from "@/components/site/ParticleNetworkBackground";
@@ -97,8 +96,9 @@ export default function RootLayout({
 							<ThemeToggle />
 						</div>
 
-						<main className="mx-auto max-w-6xl px-4 lg:pl-20">{children}</main>
-						<SiteFooter />
+						<main className="mx-auto max-w-6xl px-4 lg:pl-24 lg:pr-8">
+							{children}
+						</main>
 					</div>
 				</ThemeProvider>
 			</body>

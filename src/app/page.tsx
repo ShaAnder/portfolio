@@ -12,7 +12,6 @@ import {
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { ProjectDetailsDialog } from "@/components/site/ProjectDetailsDialog";
 import { Section } from "@/components/site/Section";
-import { AboutReadMoreDialog } from "@/components/site/AboutReadMoreDialog";
 import { TestimonialCard } from "@/components/site/TestimonialCard";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
@@ -45,7 +44,7 @@ export default function Home() {
 							<div className="relative mx-auto size-40 rounded-full min-[769px]:size-64 lg:size-80 xl:size-96">
 								<div
 									aria-hidden="true"
-									className="absolute -inset-3 rounded-full bg-black/30 blur-xl transition-colors duration-700 delay-1000 dark:bg-white/15"
+									className="absolute -inset-3 rounded-full bg-black/27 blur-xl transition-colors duration-700 dark:bg-white/13 lg:bg-black/30 lg:dark:bg-white/15"
 								/>
 
 								<div className="relative size-full overflow-hidden rounded-full border border-border">
@@ -193,52 +192,61 @@ export default function Home() {
 							</div>
 						</div>
 					</div>
-
-					<div
-						aria-hidden="true"
-						className="mt-10 hidden h-px w-24 bg-border/60 min-[769px]:block min-[769px]:mt-12"
-					/>
 				</div>
 			</section>
 
 			<Section id="about" title="About">
 				<div className="max-w-3xl space-y-4 text-muted-foreground">
 					<p>
-						Based in Ireland, targeting remote/hybrid junior roles across
-						Ireland and the UK.
-					</p>
-					<p className="text-sm font-medium tracking-wide">
-						React • Next.js • TypeScript • Django • Supabase • Salesforce
+						I’m Shaun, a junior full stack developer based in Ireland, currently
+						looking for remote or hybrid roles across Ireland and the UK.
 					</p>
 					<p>
-						Focused on modern frontend development with React, Next.js, and
-						TypeScript, paired with Django and Supabase on the backend.
-						Currently gaining valuable experience with Salesforce (Apex + LWC).
+						I’ve always loved building things. That started with learning to
+						solder when I was younger and turned into a long-running interest in
+						IT, which naturally led me into software development.
+					</p>
+					<p>
+						I’m most at home with React, Next.js, and TypeScript, and I’m
+						comfortable working end-to-end with Django and Supabase. I’m also
+						gaining hands-on experience with Salesforce (Apex + LWC).
+					</p>
+					<p>
+						I enjoy building production-style web apps where the experience
+						feels calm and intentional: clean UI, accessible patterns, and code
+						that’s straightforward to maintain.
+					</p>
+					<p>
+						I’m the kind of developer who cares about the “last 10%” too:
+						responsive layout, performance, and the small interactions that make
+						a product feel polished.
 					</p>
 					<p>
 						This portfolio intentionally showcases only four new,
 						production-style builds (no older betas).
 					</p>
-					<div className="pt-2">
-						<AboutReadMoreDialog />
-					</div>
 				</div>
 			</Section>
 
 			<Section id="skills" title="Skills">
-				<div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-					{skillGroups.map((group) => (
-						<div key={group.title} className="rounded-lg border p-3">
-							<div className="font-medium">{group.title}</div>
-							<div className="mt-3 flex flex-wrap gap-2">
-								{group.skills.map((skill) => (
-									<Badge key={skill} variant="outline">
-										{skill}
-									</Badge>
-								))}
+				<div className="space-y-4">
+					<p className="text-sm font-medium tracking-wide text-muted-foreground">
+						React • Next.js • TypeScript • Django • Supabase • Salesforce
+					</p>
+					<div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+						{skillGroups.map((group) => (
+							<div key={group.title} className="rounded-lg border p-3">
+								<div className="font-medium">{group.title}</div>
+								<div className="mt-3 flex flex-wrap gap-2">
+									{group.skills.map((skill) => (
+										<Badge key={skill} variant="outline">
+											{skill}
+										</Badge>
+									))}
+								</div>
 							</div>
-						</div>
-					))}
+						))}
+					</div>
 				</div>
 			</Section>
 

@@ -7,8 +7,8 @@ import { BackdropTitle } from "@/components/site/BackdropTitle";
 	This is a reusable layout wrapper for the homepage sections.
 
 	Styling choices:
-	- `scroll-mt-4` gives a small offset so anchors don't kiss the top edge.
-	- `py-12 md:py-16` gives comfortable vertical rhythm that scales with screen size.
+	- `scroll-mt-4` for a small offset so anchors don't kiss the top edge.
+	- `py-12 md:py-16` for comfortable vertical rhythm that scales with screen size.
 	- Title uses tracking-tight + a responsive font size for a modern feel.
 */
 
