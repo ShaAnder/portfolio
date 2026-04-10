@@ -1,15 +1,8 @@
 import Link from "next/link";
-import { FolderKanban, MessageSquare, Quote, User, Wrench } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button-variants";
 
-const navItems = [
-	{ label: "About", href: "/#about", icon: User },
-	{ label: "Skills", href: "/#skills", icon: Wrench },
-	{ label: "Projects", href: "/#projects", icon: FolderKanban },
-	{ label: "Testimonials", href: "/#testimonials", icon: Quote },
-	{ label: "Contact", href: "/#contact", icon: MessageSquare },
-];
+import { navItems } from "@/components/site/navigation";
 
 /**
  * SiteHeader
@@ -24,7 +17,7 @@ const navItems = [
  */
 export function SiteHeader() {
 	return (
-		<aside className="fixed inset-y-0 left-0 z-50 flex w-16 flex-col border-r bg-background/80 backdrop-blur transition-colors duration-300 supports-backdrop-filter:bg-background/60 motion-reduce:transition-none">
+		<aside className="fixed inset-y-0 left-0 z-50 hidden w-16 flex-col border-r bg-background/80 backdrop-blur transition-colors duration-300 supports-backdrop-filter:bg-background/60 motion-reduce:transition-none lg:flex">
 			<div className="flex flex-col items-center gap-2 px-2 py-4">
 				<Link
 					href="/"

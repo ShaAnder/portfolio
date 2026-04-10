@@ -19,12 +19,61 @@ import { Button } from "@/components/ui/button";
 export function ThemeToggle({ className }: { className?: string }) {
 	const { resolvedTheme, setTheme } = useTheme();
 	const [mounted, setMounted] = React.useState(false);
+	const [optimisticTheme, setOptimisticTheme] = React.useState<
+		"light" | "dark" | null
+	>(null);
 
 	React.useEffect(() => {
 		setMounted(true);
 	}, []);
 
-	const isDark = mounted && resolvedTheme === "dark";
+	const effectiveTheme =
+		optimisticTheme ?? (mounted ? resolvedTheme : undefined);
+	const isDark = effectiveTheme === "dark";
+
+	React.useEffect(() => {
+		if (!mounted) return;
+		if (optimisticTheme && resolvedTheme === optimisticTheme) {
+			setOptimisticTheme(null);
+		}
+	}, [mounted, optimisticTheme, resolvedTheme]);
+
+	const handleToggle = React.useCallback(() => {
+		const nextTheme = isDark ? "light" : "dark";
+		setOptimisticTheme(nextTheme);
+
+		// Persist immediately so refreshes keep the choice even if React updates are delayed.
+		try {
+			localStorage.setItem("theme", nextTheme);
+		} catch {
+			// Ignore if storage is unavailable.
+		}
+
+		// Prefer a single compositor-driven transition to avoid "jitter" from lots of
+		// individual element transitions when CSS variables flip.
+		const startViewTransition = (
+			document as unknown as {
+				startViewTransition?: (callback: () => void) => void;
+			}
+		).startViewTransition?.bind(document);
+
+		const applyDomTheme = () => {
+			// Apply the theme synchronously to avoid a "halfway" hitch.
+			document.documentElement.classList.toggle("dark", nextTheme === "dark");
+		};
+
+		if (startViewTransition) {
+			startViewTransition(applyDomTheme);
+
+			// next-themes applies the class in an effect; syncing it after the transition
+			// avoids a second DOM update in the middle of the animation.
+			window.setTimeout(() => setTheme(nextTheme), 260);
+			return;
+		}
+
+		applyDomTheme();
+		setTheme(nextTheme);
+	}, [isDark, setTheme]);
 
 	return (
 		<Button
@@ -32,7 +81,7 @@ export function ThemeToggle({ className }: { className?: string }) {
 			size="icon-sm"
 			aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
 			aria-pressed={isDark}
-			onClick={() => setTheme(isDark ? "light" : "dark")}
+			onClick={handleToggle}
 			className={cn(
 				// "Pill" track. Slight transparency keeps it sleek over the blurred header.
 				"relative w-12 justify-start overflow-hidden rounded-full border-border bg-background/60 p-0 transition-colors duration-300",

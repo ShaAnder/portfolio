@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JetBrains_Mono, Manrope } from "next/font/google";
 import "./globals.css";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -6,13 +7,24 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { MobileNav } from "@/components/site/MobileNav";
+import { ParticleNetworkBackground } from "@/components/site/ParticleNetworkBackground";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { ThemeProvider } from "@/components/site/ThemeProvider";
-import {
-	WeatherEffects,
-	WeatherEffectsToggle,
-} from "@/components/site/weather-effects";
-import { CityscapeParallax } from "@/components/site/cityscape";
+
+const fontSans = Manrope({
+	subsets: ["latin"],
+	variable: "--font-sans",
+	display: "swap",
+	weight: ["300", "400", "500", "600", "700"],
+});
+
+const fontMono = JetBrains_Mono({
+	subsets: ["latin"],
+	variable: "--font-geist-mono",
+	display: "swap",
+	weight: ["400", "500", "600"],
+});
 
 /*
 	RootLayout
@@ -23,12 +35,11 @@ import { CityscapeParallax } from "@/components/site/cityscape";
 	- Define document metadata.
 	- Apply global styles (`globals.css`).
 	- Mount ThemeProvider (client) and keep server markup stable.
-	- Mount WeatherEffects overlay behind content.
 	- Render persistent navigation (SiteHeader) and footer.
 
 	Performance notes:
 	- Keep the layout mostly server-rendered; client boundaries are limited to
-	  ThemeProvider, theme toggle, and the weather effects feature.
+	  ThemeProvider, theme toggle, and the particle network background.
 */
 
 export const metadata: Metadata = {
@@ -42,6 +53,8 @@ export const metadata: Metadata = {
 
 config.autoAddCss = false;
 
+const enableParticleNetwork = true;
+
 export default function RootLayout({
 	children,
 }: {
@@ -51,7 +64,7 @@ export default function RootLayout({
 		<html
 			lang="en"
 			suppressHydrationWarning
-			className="scroll-smooth snap-y snap-mandatory motion-reduce:scroll-auto"
+			className={`${fontSans.variable} ${fontMono.variable} scroll-smooth snap-y snap-mandatory motion-reduce:scroll-auto`}
 		>
 			{/*
 				`suppressHydrationWarning` is used because the theme class is applied client-side.
@@ -67,30 +80,26 @@ export default function RootLayout({
 					// Keeps native controls (scrollbars/forms) aligned with the active theme.
 					enableColorScheme
 				>
-					<WeatherEffects>
-						<div
-							id="home-bg"
-							className="fixed inset-0 z-0 pointer-events-none"
-							aria-hidden="true"
-						>
-							<div id="home-bg-rain" className="absolute inset-0" />
-							<div id="home-bg-city" className="absolute inset-0" />
-						</div>
-						<CityscapeParallax mountId="home-bg-city" />
+					<div
+						aria-hidden="true"
+						className="pointer-events-none fixed inset-0 z-0"
+					>
+						<div className="absolute inset-0 bg-linear-to-b from-muted/25 via-background to-background" />
+						<div className="absolute left-1/2 top-24 h-72 w-72 -translate-x-1/2 rounded-full bg-muted/20 blur-3xl sm:top-20 sm:h-96 sm:w-96" />
+						{enableParticleNetwork ? <ParticleNetworkBackground /> : null}
+					</div>
+
+					<div className="relative z-10">
 						<SiteHeader />
+						<MobileNav />
 
 						<div className="fixed top-4 right-4 z-40 flex items-center gap-2">
 							<ThemeToggle />
-							<WeatherEffectsToggle />
 						</div>
 
-						<main className="relative z-10 mx-auto max-w-6xl px-4 pl-20">
-							{children}
-						</main>
-						<div className="relative z-10">
-							<SiteFooter />
-						</div>
-					</WeatherEffects>
+						<main className="mx-auto max-w-6xl px-4 lg:pl-20">{children}</main>
+						<SiteFooter />
+					</div>
 				</ThemeProvider>
 			</body>
 		</html>

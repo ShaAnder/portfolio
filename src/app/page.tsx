@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Download, FolderKanban, Mail } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -36,123 +37,159 @@ export default function Home() {
 		<div>
 			<section
 				id="home-hero"
-				className="relative flex min-h-dvh snap-start snap-always flex-col justify-center py-12 md:py-16"
+				className="relative flex min-h-dvh snap-start snap-always flex-col justify-center py-16 md:py-24"
 			>
-				<div className="relative z-10 space-y-4">
-					<h1 className="text-5xl leading-[1.05] font-semibold tracking-tight md:text-6xl">
-						Shaun Anderton
-					</h1>
-					<div className="max-w-2xl space-y-2 md:text-lg">
-						<p className="font-medium text-foreground">
-							Junior Full Stack Developer
-						</p>
-						<p className="text-muted-foreground">
-							Open to UK &amp; Ireland roles - remote or hybrid.
-						</p>
-						<p className="text-muted-foreground">
-							Focused on modern frontend development with React, Next.js, and
-							TypeScript, paired with Django and Supabase on the backend.
-							Currently gaining valuable experience with Salesforce (Apex +
-							LWC).
-						</p>
-					</div>
+				<div className="relative z-10 mx-auto w-full max-w-5xl">
+					<div className="flex flex-col items-center gap-10 min-[769px]:flex-row min-[769px]:items-center min-[769px]:justify-between min-[769px]:gap-14">
+						<div className="order-1 flex w-full justify-center min-[769px]:order-2 min-[769px]:w-auto">
+							<div className="relative mx-auto size-40 overflow-hidden rounded-full border border-border min-[769px]:size-64 lg:size-80 xl:size-96">
+								<Image
+									src="/images/profile.jpg"
+									alt="Shaun Anderton"
+									fill
+									priority
+									className="object-cover object-[50%_10%] scale-[1.12]"
+									sizes="(min-width: 1280px) 384px, (min-width: 1024px) 320px, (min-width: 769px) 256px, 160px"
+								/>
+							</div>
+						</div>
 
-					{/* CTA row: wraps naturally on small screens. */}
-					<div className="flex flex-wrap gap-3 pt-2">
-						<a
-							data-icon="inline-start"
-							className={buttonVariants({
-								variant: "outline",
-								size: "lg",
-								className: "h-10 px-4 text-base rounded-full",
-							})}
-							href="#projects"
-						>
-							<FolderKanban className="size-4" />
-							View projects
-						</a>
-						<a
-							data-icon="inline-start"
-							className={buttonVariants({
-								variant: "outline",
-								size: "lg",
-								className: "h-10 px-4 text-base rounded-full",
-							})}
-							href="/ShaunAndertonCV.pdf"
-							target="_blank"
-							rel="noreferrer"
-						>
-							<Download className="size-4" />
-							Download CV
-						</a>
-						<a
-							data-icon="inline-start"
-							className={buttonVariants({
-								variant: "outline",
-								size: "lg",
-								className: "h-10 px-4 text-base rounded-full",
-							})}
-							href="#contact"
-						>
-							<Mail className="size-4" />
-							Get in touch
-						</a>
-					</div>
+						<div className="order-2 flex w-full max-w-2xl flex-col items-center text-center min-[769px]:order-1 min-[769px]:items-start min-[769px]:text-left">
+							<div className="space-y-3 md:space-y-4">
+								<h1 className="text-balance text-4xl font-semibold leading-[1.02] tracking-tight text-foreground sm:text-5xl md:text-6xl">
+									Hi, I&apos;m{" "}
+									<span className="bg-linear-to-r from-destructive to-sidebar-primary bg-clip-text text-transparent">
+										Shaun
+									</span>
+								</h1>
 
-					<div className="flex flex-wrap items-center gap-4">
-						<Link
-							className={buttonVariants({
-								variant: "ghost",
-								size: "icon-lg",
-								className: "size-11 rounded-full! border border-border!",
-							})}
-							href="/"
-							aria-label="GitHub"
-						>
-							<FontAwesomeIcon icon={faGithub} className="size-5! md:size-6!" />
-						</Link>
-						<Link
-							className={buttonVariants({
-								variant: "ghost",
-								size: "icon-lg",
-								className: "size-11 rounded-full! border border-border!",
-							})}
-							href="/"
-							aria-label="LinkedIn"
-						>
-							<FontAwesomeIcon
-								icon={faLinkedinIn}
-								className="size-5! md:size-6!"
+								<h2 className="text-balance text-2xl font-medium leading-[1.15] tracking-tight text-muted-foreground sm:text-3xl md:text-4xl">
+									Junior Full Stack Developer
+								</h2>
+							</div>
+
+							<p className="mt-6 max-w-xl text-pretty text-base text-muted-foreground md:text-lg">
+								My goal is to build sustainable, scalable, and clean web
+								experiences that feel fast, distinctive, and effortless to use.
+							</p>
+
+							<p className="mt-8 font-semibold leading-snug tracking-tight text-foreground">
+								Open to UK &amp; Ireland roles (remote or hybrid).
+							</p>
+
+							{/* CTA row: wraps naturally on small screens. */}
+							<div className="mt-12 flex flex-wrap justify-center gap-3 min-[769px]:justify-start min-[769px]:gap-4">
+								<a
+									data-icon="inline-start"
+									className={buttonVariants({
+										variant: "default",
+										size: "lg",
+										className:
+											"h-10 px-4 text-base rounded-full transition-transform hover:-translate-y-0.5 hover:scale-[1.02] hover:ring-4 hover:ring-ring/10 motion-reduce:transform-none",
+									})}
+									href="#projects"
+								>
+									<FolderKanban className="size-4" />
+									View projects
+								</a>
+								<a
+									data-icon="inline-start"
+									className={buttonVariants({
+										variant: "outline",
+										size: "lg",
+										className:
+											"h-10 px-4 text-base rounded-full transition-transform hover:-translate-y-0.5 hover:scale-[1.02] hover:ring-4 hover:ring-ring/10 motion-reduce:transform-none",
+									})}
+									href="/ShaunAndertonCV.pdf"
+									target="_blank"
+									rel="noreferrer"
+								>
+									<Download className="size-4" />
+									Download CV
+								</a>
+								<a
+									data-icon="inline-start"
+									className={buttonVariants({
+										variant: "outline",
+										size: "lg",
+										className:
+											"h-10 px-4 text-base rounded-full transition-transform hover:-translate-y-0.5 hover:scale-[1.02] hover:ring-4 hover:ring-ring/10 motion-reduce:transform-none",
+									})}
+									href="#contact"
+								>
+									<Mail className="size-4" />
+									Get in touch
+								</a>
+							</div>
+
+							<div className="mt-6 flex flex-wrap items-center justify-center gap-4 min-[769px]:justify-start">
+								<Link
+									className={buttonVariants({
+										variant: "ghost",
+										size: "icon-lg",
+										className:
+											"size-11 rounded-full! border border-border! transition-transform hover:-translate-y-0.5 hover:scale-[1.04] hover:ring-4 hover:ring-ring/10 motion-reduce:transform-none",
+									})}
+									href="/"
+									aria-label="GitHub"
+								>
+									<FontAwesomeIcon
+										icon={faGithub}
+										className="size-5! md:size-6!"
+									/>
+								</Link>
+								<Link
+									className={buttonVariants({
+										variant: "ghost",
+										size: "icon-lg",
+										className:
+											"size-11 rounded-full! border border-border! transition-transform hover:-translate-y-0.5 hover:scale-[1.04] hover:ring-4 hover:ring-ring/10 motion-reduce:transform-none",
+									})}
+									href="/"
+									aria-label="LinkedIn"
+								>
+									<FontAwesomeIcon
+										icon={faLinkedinIn}
+										className="size-5! md:size-6!"
+									/>
+								</Link>
+								<Link
+									className={buttonVariants({
+										variant: "ghost",
+										size: "icon-lg",
+										className:
+											"size-11 rounded-full! border border-border! transition-transform hover:-translate-y-0.5 hover:scale-[1.04] hover:ring-4 hover:ring-ring/10 motion-reduce:transform-none",
+									})}
+									href="/"
+									aria-label="Twitter"
+								>
+									<FontAwesomeIcon
+										icon={faXTwitter}
+										className="size-5! md:size-6!"
+									/>
+								</Link>
+								<Link
+									className={buttonVariants({
+										variant: "ghost",
+										size: "icon-lg",
+										className:
+											"size-11 rounded-full! border border-border! transition-transform hover:-translate-y-0.5 hover:scale-[1.04] hover:ring-4 hover:ring-ring/10 motion-reduce:transform-none",
+									})}
+									href="/"
+									aria-label="YouTube"
+								>
+									<FontAwesomeIcon
+										icon={faYoutube}
+										className="size-5! md:size-6!"
+									/>
+								</Link>
+							</div>
+
+							<div
+								aria-hidden="true"
+								className="mt-10 hidden h-px w-24 bg-border/60 min-[769px]:block min-[769px]:mt-12"
 							/>
-						</Link>
-						<Link
-							className={buttonVariants({
-								variant: "ghost",
-								size: "icon-lg",
-								className: "size-11 rounded-full! border border-border!",
-							})}
-							href="/"
-							aria-label="Twitter"
-						>
-							<FontAwesomeIcon
-								icon={faXTwitter}
-								className="size-5! md:size-6!"
-							/>
-						</Link>
-						<Link
-							className={buttonVariants({
-								variant: "ghost",
-								size: "icon-lg",
-								className: "size-11 rounded-full! border border-border!",
-							})}
-							href="/"
-							aria-label="YouTube"
-						>
-							<FontAwesomeIcon
-								icon={faYoutube}
-								className="size-5! md:size-6!"
-							/>
-						</Link>
+						</div>
 					</div>
 				</div>
 			</section>
@@ -162,6 +199,14 @@ export default function Home() {
 					<p>
 						Based in Ireland, targeting remote/hybrid junior roles across
 						Ireland and the UK.
+					</p>
+					<p className="text-sm font-medium tracking-wide">
+						React • Next.js • TypeScript • Django • Supabase • Salesforce
+					</p>
+					<p>
+						Focused on modern frontend development with React, Next.js, and
+						TypeScript, paired with Django and Supabase on the backend.
+						Currently gaining valuable experience with Salesforce (Apex + LWC).
 					</p>
 					<p>
 						This portfolio intentionally showcases only four new,
@@ -177,11 +222,6 @@ export default function Home() {
 				<div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
 					{skillGroups.map((group) => (
 						<div key={group.title} className="rounded-lg border p-3">
-							{/*
-								Skill group card
-								- `border` uses tokenized border color
-								- rounded + padding matches overall component language
-							*/}
 							<div className="font-medium">{group.title}</div>
 							<div className="mt-3 flex flex-wrap gap-2">
 								{group.skills.map((skill) => (

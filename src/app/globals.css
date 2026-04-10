@@ -100,7 +100,8 @@
 	--radius: 0.625rem;
 	--sidebar: oklch(0.985 0 0);
 	--sidebar-foreground: oklch(0.145 0 0);
-	--sidebar-primary: oklch(0.205 0 0);
+	/* Used as our subtle brand purple accent across light + dark. */
+	--sidebar-primary: oklch(0.488 0.243 264.376);
 	--sidebar-primary-foreground: oklch(0.985 0 0);
 	--sidebar-accent: oklch(0.97 0 0);
 	--sidebar-accent-foreground: oklch(0.205 0 0);
@@ -119,6 +120,31 @@ html {
 
 html.dark {
 	color-scheme: dark;
+}
+
+/*
+	Theme switching smoothness
+	--------------------------
+	On supported browsers, use the View Transitions API to crossfade between
+	light/dark states. This avoids choppy, per-element transitions when many CSS
+	variables update at once.
+*/
+@supports (view-transition-name: root) {
+	html {
+		view-transition-name: root;
+	}
+
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation-duration: 220ms;
+		animation-timing-function: ease-in-out;
+	}
+
+	/* Avoid any unexpected blending artifacts on complex backgrounds. */
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		mix-blend-mode: normal;
+	}
 }
 
 .dark {
@@ -171,7 +197,7 @@ html.dark {
 		@apply border-border outline-ring/50;
 	}
 	body {
-		@apply bg-background text-foreground;
+		@apply bg-background text-foreground leading-relaxed;
 	}
 	html {
 		@apply font-sans;
