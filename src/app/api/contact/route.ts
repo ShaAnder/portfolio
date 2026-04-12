@@ -122,57 +122,122 @@ export async function POST(req: Request) {
 		const safeName = escapeHtml(name);
 		const safeEmail = escapeHtml(email);
 		const safeService = escapeHtml(prettyService);
+		const safeSubject = escapeHtml(subject);
 		const safeMessage = escapeHtml(message);
 
 		const html = `
 			<div style="
 				font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
-				background-color: #141414;
-				color: #f0f0f0;
-				padding: 32px;
-				border-radius: 12px;
+				background-color: #0b0b0c;
+				color: #f5f5f6;
+				padding: 28px;
+				border-radius: 14px;
 				max-width: 680px;
 				margin: 24px auto;
 				border: 1px solid rgba(255,255,255,0.08);
-				box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+				box-shadow: 0 14px 34px rgba(0,0,0,0.45);
 			">
-				<h2 style="
-					color: hsl(128, 100%, 67%);
-					margin: 0 0 12px;
-					font-size: 22px;
-					letter-spacing: -0.01em;
-				">
-					New portfolio message
-				</h2>
-
-				<p style="font-size: 14px; line-height: 1.7; margin: 0 0 18px; color: rgba(240,240,240,0.92);">
-					<strong style="color:#fff">Name:</strong> ${safeName}<br/>
-					<strong style="color:#fff">Email:</strong> ${safeEmail}<br/>
-					<strong style="color:#fff">Service:</strong> ${safeService}
-				</p>
-
-				<hr style="border: none; border-top: 1px solid rgba(255,255,255,0.10); margin: 22px 0;" />
-
-				<h3 style="font-size: 15px; color: #fff; margin: 0 0 10px;">Message</h3>
-				<div style="
-					background: rgba(255,255,255,0.06);
-					padding: 16px 18px;
-					border-radius: 10px;
-					border: 1px solid rgba(255,255,255,0.08);
-				">
+				<div style="margin: 0 0 14px;">
 					<div style="
-						color: rgba(240,240,240,0.88);
-						font-size: 14px;
-						line-height: 1.65;
-						white-space: pre-line;
+						font-size: 18px;
+						font-weight: 800;
+						letter-spacing: -0.02em;
+						margin: 0;
+						color: #f5f5f6;
 					">
-						${safeMessage}
+						NEW MESSAGE
+					</div>
+					<div style="
+						margin-top: 6px;
+						font-size: 12px;
+						line-height: 1.6;
+						color: rgba(245,245,246,0.62);
+					">
+						Sent from portfolio contact form
 					</div>
 				</div>
 
-				<p style="margin-top: 22px; font-size: 12px; color: rgba(240,240,240,0.55);">
-					Sent from your portfolio contact form.
-				</p>
+				<div style="margin: 0 0 14px;">
+					<div style="
+						font-size: 11px;
+						font-weight: 900;
+						letter-spacing: 0.12em;
+						text-transform: uppercase;
+						color: rgba(245,245,246,0.62);
+						margin: 0 0 6px;
+					">
+						EMAIL
+					</div>
+					<div style="font-size: 14px; line-height: 1.6; color: rgba(245,245,246,0.92);">
+						${safeEmail}
+					</div>
+				</div>
+
+				<div style="margin: 0 0 14px;">
+					<div style="
+						font-size: 11px;
+						font-weight: 900;
+						letter-spacing: 0.12em;
+						text-transform: uppercase;
+						color: rgba(245,245,246,0.62);
+						margin: 0 0 6px;
+					">
+						SERVICE
+					</div>
+					<div style="font-size: 14px; line-height: 1.6; color: rgba(245,245,246,0.92);">
+						${safeService}
+					</div>
+				</div>
+
+				<div style="margin: 0 0 18px;">
+					<div style="
+						font-size: 11px;
+						font-weight: 900;
+						letter-spacing: 0.12em;
+						text-transform: uppercase;
+						color: rgba(245,245,246,0.62);
+						margin: 0 0 6px;
+					">
+						SUBJECT
+					</div>
+					<div style="font-size: 14px; line-height: 1.6; color: rgba(245,245,246,0.92);">
+						${safeSubject}
+					</div>
+				</div>
+
+				<hr style="border: none; border-top: 1px solid rgba(255,255,255,0.10); margin: 22px 0;" />
+
+				<div style="margin: 0;">
+					<div style="
+						font-size: 11px;
+						font-weight: 900;
+						letter-spacing: 0.12em;
+						text-transform: uppercase;
+						color: rgba(245,245,246,0.62);
+						margin: 0 0 10px;
+					">
+						MESSAGE
+					</div>
+					<div style="
+						background: rgba(255,255,255,0.05);
+						padding: 16px 18px;
+						border-radius: 12px;
+					">
+						<div style="
+							color: rgba(245,245,246,0.90);
+							font-size: 14px;
+							line-height: 1.7;
+							white-space: pre-line;
+						">
+							${safeMessage}
+						</div>
+					</div>
+				</div>
+
+				<div style="margin-top: 22px; font-size: 12px; color: rgba(245,245,246,0.55);">
+					Sent from portfolio contact form
+				</div>
+				<div style="display:none;">${safeName}</div>
 			</div>
 		`;
 
