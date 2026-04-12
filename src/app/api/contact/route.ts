@@ -29,6 +29,96 @@ function toBoolean(value: string | undefined) {
 	return value === "1" || value.toLowerCase() === "true";
 }
 
+// Improved email template (ported & cleaned from local preview page)
+// Returns ONLY the card HTML (perfect for nodemailer). The full document wrapper
+// was only needed for the local iframe preview and has been removed here.
+function buildEmailHtml(options: {
+	name: string;
+	email: string;
+	service: string;
+	subject: string; // kept for API compatibility even though not rendered in body
+	message: string;
+}) {
+	const safeName = escapeHtml(options.name);
+	const safeEmail = escapeHtml(options.email);
+	const safeService = escapeHtml(options.service);
+	const safeMessage = escapeHtml(options.message);
+
+	const card = `
+		<div style="
+			font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+			background-color: #0b0b0c;
+			color: #f5f5f6;
+			padding: 28px;
+			border-radius: 0;
+			width: 100%;
+			margin: 0;
+			box-sizing: border-box;
+			border: 1px solid rgba(255,255,255,0.08);
+			box-shadow: 0 14px 34px rgba(0,0,0,0.45);
+		">
+			<div style="margin: 0 0 20px;">
+				<div style="
+					font-size: 24px;
+					font-weight: 800;
+					letter-spacing: -0.02em;
+					margin: 0;
+					color: #f5f5f6;
+				">
+					NEW MESSAGE
+				</div>
+				<div style="padding-top: 1rem; padding-bottom: 0; font-size: 15px; font-weight: 700; color: #e8e8ea; opacity: 0.82;">
+					From: ${safeName}
+				</div>
+				<hr style="border: none; border-top: 1px solid rgba(255,255,255,0.10); margin: 16px 0;" />
+			</div>
+
+			<div style="padding-top: 16px;">
+				<div style="display:flex;align-items:center;gap:7px;font-size:15px;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,245,246,0.62);margin:0 0 6px;">
+					<span style="display:inline-flex;align-items:center;">
+						<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:#e8e8ea;opacity:0.82;vertical-align:middle;" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="3"/><path d="m3 6 8.6 7.13a2 2 0 0 0 2.53 0L23 6"/></svg>
+					</span>
+					EMAIL
+				</div>
+				<div style="font-size: 14px; line-height: 1.6; color: rgba(245,245,246,0.92); padding-bottom: 16px;">
+					${safeEmail}
+				</div>
+			</div>
+
+			<div style="padding-top: 16px;">
+				<div style="display:flex;align-items:center;gap:7px;font-size:15px;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,245,246,0.62);margin:0 0 6px;">
+					<span style="display:inline-flex;align-items:center;">
+						<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:#e8e8ea;opacity:0.82;vertical-align:middle;" viewBox="0 0 24 24"><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M9 8V6a3 3 0 1 1 6 0v2"/></svg>
+					</span>
+					SERVICE
+				</div>
+				<div style="font-size: 14px; line-height: 1.6; color: rgba(245,245,246,0.92); padding-bottom: 16px;">
+					${safeService}
+				</div>
+			</div>
+
+			<div style="padding-top: 16px;">
+				<div style="display:flex;align-items:center;gap:7px;font-size:15px;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,245,246,0.62);margin:0;">
+					<span style="display:inline-flex;align-items:center;">
+						<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:#e8e8ea;opacity:0.82;vertical-align:middle;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>
+					</span>
+					MESSAGE
+				</div>
+				<div style="color: rgba(245,245,246,0.90); font-size: 14px; line-height: 1.2; white-space: pre-line; padding-bottom: 16px; margin-top: 0;">
+					${safeMessage}
+				</div>
+			</div>
+
+			<hr style="border: none; border-top: 1px solid rgba(255,255,255,0.10); margin: 16px 0;" />
+			<div style="font-size: 13px; font-weight: 700; color: rgba(245,245,246,0.82);">
+				Sent from the portfolio contact form
+			</div>
+		</div>
+	`;
+
+	return card;
+}
+
 export async function POST(req: Request) {
 	const MIN_MESSAGE_CHARS = 50;
 
@@ -80,7 +170,6 @@ export async function POST(req: Request) {
 		);
 
 	try {
-		const prettyService = service;
 		const subject = `Portfolio (${service}) ${subjectInput}: ${name}`;
 
 		const smtpHost = process.env.SMTP_HOST;
@@ -129,115 +218,21 @@ export async function POST(req: Request) {
 			);
 		}
 
-		const safeName = escapeHtml(name);
-		const safeEmail = escapeHtml(email);
-		const safeMessage = escapeHtml(message);
-
-		const html = `
-			<div style="
-				font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
-				background-color: #0b0b0c;
-				color: #f5f5f6;
-				padding: 28px;
-				border-radius: 0;
-				width: 100%;
-				margin: 0;
-				box-sizing: border-box;
-				border: 1px solid rgba(255,255,255,0.08);
-				box-shadow: 0 14px 34px rgba(0,0,0,0.45);
-			">
-				<div style="margin: 0 0 20px;">
-					<div style="
-						font-size: 24px;
-						font-weight: 800;
-						letter-spacing: -0.02em;
-						margin: 0;
-						color: #f5f5f6;
-					">
-						NEW MESSAGE
-					</div>
-					<div style="
-						margin-top: 10px;
-						font-size: 13px;
-						font-weight: 700;
-						line-height: 1.6;
-						color: rgba(245,245,246,0.82);
-						padding-bottom: 18px;
-					">
-						Sent from the portfolio contact form
-					</div>
-				</div>
-
-				<div style="margin: 0 0 14px;">
-					<div style="display:flex;align-items:center;gap:7px;font-size:15px;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,245,246,0.62);margin:0 0 6px;">
-						<span style="display:inline-flex;align-items:center;">
-							<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:#e8e8ea;opacity:0.82;vertical-align:middle;" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="3"/><path d="m3 6 8.6 7.13a2 2 0 0 0 2.53 0L23 6"/></svg>
-						</span>
-						EMAIL
-					</div>
-					<div style="font-size: 14px; line-height: 1.6; color: rgba(245,245,246,0.92);">
-						${safeEmail}
-					</div>
-				</div>
-
-				<div style="margin: 0 0 14px;">
-					<div style="display:flex;align-items:center;gap:7px;font-size:15px;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,245,246,0.62);margin:0 0 6px;">
-						<span style="display:inline-flex;align-items:center;">
-							<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:#e8e8ea;opacity:0.82;vertical-align:middle;" viewBox="0 0 24 24"><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M9 8V6a3 3 0 1 1 6 0v2"/></svg>
-						</span>
-						SERVICE
-					</div>
-					<div style="font-size: 14px; line-height: 1.6; color: rgba(245,245,246,0.92);">
-				<div style="margin: 0 0 18px;">
-					<div style="display:flex;align-items:center;gap:7px;font-size:15px;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,245,246,0.62);margin:0 0 10px;">
-						<span style="display:inline-flex;align-items:center;">
-							<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:#e8e8ea;opacity:0.82;vertical-align:middle;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>
-						</span>
-						MESSAGE
-					</div>
-					<div style="color: rgba(245,245,246,0.90); font-size: 14px; line-height: 1.7; white-space: pre-line;">
-						${safeMessage}
-					</div>
-				</div>
-						</span>
-				<div style="margin-top: 18px; font-size: 13px; font-weight: 600; color: rgba(245,245,246,0.82);">
-					Sent from the portfolio contact form
-				</div>
-				<div style="margin-top: 8px; font-size: 12px; color: rgba(245,245,246,0.62);">
-					&copy; ${new Date().getFullYear()} Jordan Example. All rights reserved.
-				</div>
-				<div style="display:none;">${safeName}</div>
-						MESSAGE
-					</div>
-					<div style="
-						background: rgba(255,255,255,0.05);
-						padding: 16px 18px;
-						border-radius: 12px;
-					">
-						<div style="
-							color: rgba(245,245,246,0.90);
-							font-size: 14px;
-							line-height: 1.7;
-							white-space: pre-line;
-						">
-							${safeMessage}
-						</div>
-					</div>
-				</div>
-
-				<div style="margin-top: 22px; font-size: 12px; font-weight: 600; color: rgba(245,245,246,0.72);">
-					Sent from the portfolio contact form
-				</div>
-				<div style="display:none;">${safeName}</div>
-			</div>
-		`;
+		// Use the polished template from your local preview page
+		const html = buildEmailHtml({
+			name,
+			email,
+			service,
+			subject: subjectInput,
+			message,
+		});
 
 		await transporter.sendMail({
 			from: `"${name}" <${from}>`,
 			to,
 			replyTo: email,
 			subject,
-			text: `Name: ${name}\nEmail: ${email}\nService: ${prettyService}\nSubject: ${subjectInput}\n\n${message}\n`,
+			text: `Name: ${name}\nEmail: ${email}\nService: ${service}\nSubject: ${subjectInput}\n\n${message}\n`,
 			html,
 		});
 	} catch {
