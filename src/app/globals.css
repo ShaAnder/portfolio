@@ -77,46 +77,31 @@
 }
 
 :root {
-	/*
-		Light mode palette
-		- Uses OKLCH for perceptually smoother ramps (especially when transitioning).
-		- The actual "design system" colors are the semantic variables below.
-	*/
-	--background: oklch(1 0 0);
-	--foreground: oklch(0.145 0 0);
-	--card: oklch(1 0 0);
-	--card-foreground: oklch(0.145 0 0);
-	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.145 0 0);
-	--primary: oklch(0.205 0 0);
-	--primary-foreground: oklch(0.985 0 0);
-	--secondary: oklch(0.97 0 0);
-	--secondary-foreground: oklch(0.205 0 0);
-	--muted: oklch(0.97 0 0);
-	--muted-foreground: oklch(0.556 0 0);
-	--accent: oklch(0.97 0 0);
-	--accent-foreground: oklch(0.205 0 0);
+	--background: oklch(0.94 0 0); /* softer off-white, dramatically less glare */
+	--foreground: oklch(0.18 0 0);
+	--card: oklch(0.98 0 0); /* bright cards on softer background */
+	--card-foreground: oklch(0.18 0 0);
+	--popover: oklch(0.98 0 0);
+	--popover-foreground: oklch(0.18 0 0);
+	--primary: oklch(0.22 0 0);
+	--primary-foreground: oklch(0.99 0 0);
+	--secondary: oklch(0.88 0 0); /* more breathing room */
+	--secondary-foreground: oklch(0.22 0 0);
+	--muted: oklch(0.88 0 0);
+	--muted-foreground: oklch(0.4 0 0);
+	--accent: oklch(0.88 0 0);
+	--accent-foreground: oklch(0.22 0 0);
 	--destructive: oklch(0.577 0.245 27.325);
-	--border: oklch(0.922 0 0);
-	--input: oklch(0.922 0 0);
-	--ring: oklch(0.708 0 0);
-	/*
-		Chart tokens
-		------------
-		Used for small accent visuals (e.g. skill meters). Keep them vibrant but not neon.
-		These are theme primitives (not component-specific hard-coded colors).
-	*/
-	--chart-1: oklch(0.69 0.22 20); /* warm red/pink */
-	--chart-2: oklch(0.74 0.18 55); /* orange */
-	--chart-3: oklch(0.82 0.16 85); /* amber */
-	--chart-4: oklch(0.74 0.15 170); /* teal */
-	--chart-5: oklch(0.66 0.18 265); /* violet */
-	/*
-		Skills gradients
-		----------------
-		Soft gradients used for skill meters per category.
-		Defined as tokens so components don't embed raw hex values.
-	*/
+	--border: oklch(0.83 0 0);
+	--input: oklch(0.95 0 0);
+	--ring: oklch(0.6 0 0);
+
+	--chart-1: oklch(0.69 0.22 20);
+	--chart-2: oklch(0.74 0.18 55);
+	--chart-3: oklch(0.82 0.16 85);
+	--chart-4: oklch(0.74 0.15 170);
+	--chart-5: oklch(0.66 0.18 265);
+
 	--skill-red-1: #ff5d6c;
 	--skill-red-2: #ff9a7a;
 	--skill-yellow-1: #ffd24a;
@@ -125,15 +110,16 @@
 	--skill-green-2: #7be8b7;
 	--skill-blue-1: #2a8cff;
 	--skill-blue-2: #7cc7ff;
+
 	--radius: 0.625rem;
-	--sidebar: oklch(0.985 0 0);
+
+	--sidebar: oklch(0.96 0 0);
 	--sidebar-foreground: oklch(0.145 0 0);
-	/* Used as our subtle brand purple accent across light + dark. */
 	--sidebar-primary: oklch(0.488 0.243 264.376);
 	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.97 0 0);
+	--sidebar-accent: oklch(0.94 0 0);
 	--sidebar-accent-foreground: oklch(0.205 0 0);
-	--sidebar-border: oklch(0.922 0 0);
+	--sidebar-border: oklch(0.88 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
 }
 
