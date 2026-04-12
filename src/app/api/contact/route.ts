@@ -30,6 +30,8 @@ function toBoolean(value: string | undefined) {
 }
 
 export async function POST(req: Request) {
+	const MIN_MESSAGE_CHARS = 50;
+
 	let body: unknown;
 	try {
 		body = await req.json();
@@ -47,6 +49,7 @@ export async function POST(req: Request) {
 	const rawName = payload.name;
 	const rawEmail = payload.email;
 	const rawService = payload.service;
+	const rawSubject = payload.subject;
 	const rawMessage = payload.message;
 
 	const firstName = typeof rawFirstName === "string" ? rawFirstName.trim() : "";
@@ -54,6 +57,7 @@ export async function POST(req: Request) {
 	const legacyName = typeof rawName === "string" ? rawName.trim() : "";
 	const email = typeof rawEmail === "string" ? rawEmail.trim() : "";
 	const service = typeof rawService === "string" ? rawService.trim() : "";
+	const subjectInput = typeof rawSubject === "string" ? rawSubject.trim() : "";
 	const message = typeof rawMessage === "string" ? rawMessage.trim() : "";
 
 	const name =
@@ -65,13 +69,19 @@ export async function POST(req: Request) {
 		return json("Please provide a valid name.", 400);
 	if (!isValidEmail(email) || email.length > 254)
 		return json("Please provide a valid email.", 400);
+	if (!service) return json("Please select a service.", 400);
 	if (service.length > 100) return json("Please choose a valid service.", 400);
-	if (message.length < 10 || message.length > 5000)
-		return json("Please provide a message (10–5000 characters).", 400);
+	if (subjectInput.length < 2 || subjectInput.length > 160)
+		return json("Please provide a subject.", 400);
+	if (message.length < MIN_MESSAGE_CHARS || message.length > 5000)
+		return json(
+			`Please provide a message (${MIN_MESSAGE_CHARS}–5000 characters).`,
+			400,
+		);
 
 	try {
-		const prettyService = service ? service : "(not specified)";
-		const subject = `Portfolio ${service ? `(${service}) ` : ""}contact: ${name}`;
+		const prettyService = service;
+		const subject = `Portfolio (${service}) ${subjectInput}: ${name}`;
 
 		const smtpHost = process.env.SMTP_HOST;
 		const smtpPort = Number.parseInt(process.env.SMTP_PORT ?? "", 10);
@@ -246,12 +256,12 @@ export async function POST(req: Request) {
 			to,
 			replyTo: email,
 			subject,
-			text: `Name: ${name}\nEmail: ${email}\nService: ${prettyService}\n\n${message}\n`,
+			text: `Name: ${name}\nEmail: ${email}\nService: ${prettyService}\nSubject: ${subjectInput}\n\n${message}\n`,
 			html,
 		});
 	} catch {
 		return json("Could not send message. Please try again.", 502);
 	}
 
-	return json("Thanks — your message has been sent.", 200);
+	return json("Thanks. Your message has been sent.", 200);
 }

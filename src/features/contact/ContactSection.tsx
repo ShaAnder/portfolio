@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,19 +24,30 @@ function isValidEmail(email: string) {
 }
 
 export function ContactSection({ className }: { className?: string }) {
+	const MIN_MESSAGE_CHARS = 50;
+
 	const [name, setName] = React.useState("");
 	const [email, setEmail] = React.useState("");
 	const [service, setService] = React.useState("");
+	const [subject, setSubject] = React.useState("");
 	const [message, setMessage] = React.useState("");
 	const [state, setState] = React.useState<ContactFormState>({
 		status: "idle",
 	});
 
+	const trimmedMessageLength = message.trim().length;
+	const remainingMessageChars = Math.max(
+		0,
+		MIN_MESSAGE_CHARS - trimmedMessageLength,
+	);
+
 	const canSubmit =
 		state.status !== "sending" &&
 		name.trim().length >= 2 &&
+		service.trim().length > 0 &&
+		subject.trim().length >= 2 &&
 		isValidEmail(email) &&
-		message.trim().length >= 10;
+		trimmedMessageLength >= MIN_MESSAGE_CHARS;
 
 	const fieldBaseClassName =
 		"w-full rounded-lg border border-border bg-background px-3 py-2 text-sm";
@@ -53,6 +65,7 @@ export function ContactSection({ className }: { className?: string }) {
 		const trimmedName = name.trim();
 		const trimmedEmail = email.trim();
 		const trimmedService = service.trim();
+		const trimmedSubject = subject.trim();
 		const trimmedMessage = message.trim();
 
 		if (trimmedName.length < 2) {
@@ -63,10 +76,18 @@ export function ContactSection({ className }: { className?: string }) {
 			setState({ status: "error", message: "Please enter a valid email." });
 			return;
 		}
-		if (trimmedMessage.length < 10) {
+		if (!trimmedService) {
+			setState({ status: "error", message: "Please select a service." });
+			return;
+		}
+		if (trimmedSubject.length < 2) {
+			setState({ status: "error", message: "Please enter a subject." });
+			return;
+		}
+		if (trimmedMessage.length < MIN_MESSAGE_CHARS) {
 			setState({
 				status: "error",
-				message: "Please enter a message (at least 10 characters).",
+				message: `Please enter a message (${MIN_MESSAGE_CHARS} characters minimum).`,
 			});
 			return;
 		}
@@ -81,6 +102,7 @@ export function ContactSection({ className }: { className?: string }) {
 					name: trimmedName,
 					email: trimmedEmail,
 					service: trimmedService,
+					subject: trimmedSubject,
 					message: trimmedMessage,
 				}),
 			});
@@ -105,6 +127,7 @@ export function ContactSection({ className }: { className?: string }) {
 			setName("");
 			setEmail("");
 			setService("");
+			setSubject("");
 			setMessage("");
 		} catch {
 			setState({
@@ -118,8 +141,8 @@ export function ContactSection({ className }: { className?: string }) {
 		<div
 			className={cn("mx-auto w-full max-w-6xl px-4 sm:px-6 md:px-8", className)}
 		>
-			<div className="mx-auto mb-5 max-w-4xl text-center sm:mb-7">
-				<p className="text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
+			<div className="mx-auto mb-4 max-w-4xl text-center sm:mb-7">
+				<p className="text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg">
 					I’m always open to connecting about{" "}
 					<span className="font-medium text-foreground/80">
 						exciting opportunities, creative collaborations, or freelance
@@ -129,12 +152,12 @@ export function ContactSection({ className }: { className?: string }) {
 					an existing product, or explore something new, I’d love to hear from
 					you.
 				</p>
-				<p className="mt-2 hidden text-pretty text-base leading-relaxed text-muted-foreground sm:mt-3 sm:block md:text-lg">
+				<p className="mt-2 hidden text-pretty text-sm leading-relaxed text-muted-foreground sm:mt-3 sm:block sm:text-base md:text-lg">
 					Share a few details about your project below, and I’ll get back to you
 					as soon as possible.
 				</p>
 			</div>
-			<div className="flex flex-col items-center justify-center gap-6 xl:flex-row xl:items-start xl:gap-10">
+			<div className="flex flex-col items-center justify-center gap-4 sm:gap-6 xl:flex-row xl:items-start xl:gap-10">
 				<div className="hidden w-full flex-1 flex-col max-w-4xl xl:flex xl:max-w-3xl 2xl:max-w-130">
 					<Card className="bg-transparent ring-0">
 						<CardContent className="flex flex-col py-2">
@@ -203,8 +226,8 @@ export function ContactSection({ className }: { className?: string }) {
 				<div className="flex w-full flex-1 xl:w-[58%] max-w-full md:max-w-3xl xl:max-w-3xl 2xl:max-w-4xl">
 					<Card className="bg-transparent ring-0 w-full">
 						<CardContent className="py-2">
-							<form onSubmit={onSubmit} className="space-y-3">
-								<div className="grid gap-3 sm:grid-cols-2">
+							<form onSubmit={onSubmit} className="space-y-2 sm:space-y-3">
+								<div className="grid gap-2 sm:gap-3 sm:grid-cols-2">
 									<div className="space-y-1">
 										<label className="sr-only" htmlFor="contact-name">
 											Name
@@ -238,30 +261,49 @@ export function ContactSection({ className }: { className?: string }) {
 									</div>
 								</div>
 
-								<div className="space-y-1">
-									<label className="sr-only" htmlFor="contact-service">
-										Service
-									</label>
-									<select
-										id="contact-service"
-										name="service"
-										value={service}
-										onChange={(e) => setService(e.target.value)}
-										className={inputClassName}
-									>
-										<option value="">Service (optional)</option>
-										<option value="Portfolio / brochure site">
-											Portfolio / brochure site
-										</option>
-										<option value="Full-stack web app">
-											Full-stack web app
-										</option>
-										<option value="API / backend">API / backend</option>
-										<option value="UI / frontend polish">
-											UI / frontend polish
-										</option>
-										<option value="Other">Other</option>
-									</select>
+								<div className="grid gap-2 sm:gap-3">
+									<div className="space-y-1">
+										<label className="sr-only" htmlFor="contact-subject">
+											Subject
+										</label>
+										<input
+											id="contact-subject"
+											name="subject"
+											required
+											placeholder="Subject"
+											value={subject}
+											onChange={(e) => setSubject(e.target.value)}
+											className={inputClassName}
+										/>
+									</div>
+									<div className="space-y-1">
+										<label className="sr-only" htmlFor="contact-service">
+											Service
+										</label>
+										<select
+											id="contact-service"
+											name="service"
+											required
+											value={service}
+											onChange={(e) => setService(e.target.value)}
+											className={inputClassName}
+										>
+											<option value="" disabled>
+												Service
+											</option>
+											<option value="Portfolio / brochure site">
+												Portfolio / brochure site
+											</option>
+											<option value="Full-stack web app">
+												Full-stack web app
+											</option>
+											<option value="API / backend">API / backend</option>
+											<option value="UI / frontend polish">
+												UI / frontend polish
+											</option>
+											<option value="Other">Other</option>
+										</select>
+									</div>
 								</div>
 
 								<div className="space-y-1">
@@ -272,7 +314,7 @@ export function ContactSection({ className }: { className?: string }) {
 										id="contact-message"
 										name="message"
 										required
-										rows={5}
+										rows={4}
 										placeholder="Message"
 										value={message}
 										onChange={(e) => setMessage(e.target.value)}
@@ -299,6 +341,22 @@ export function ContactSection({ className }: { className?: string }) {
 										) : state.status === "success" ? (
 											<span className="text-foreground/80">
 												{state.message}
+											</span>
+										) : remainingMessageChars > 0 ? (
+											<span className="text-destructive">
+												<AnimatePresence mode="popLayout" initial={false}>
+													<motion.span
+														key={remainingMessageChars}
+														initial={{ opacity: 0, y: -4 }}
+														animate={{ opacity: 1, y: 0 }}
+														exit={{ opacity: 0, y: 4 }}
+														transition={{ duration: 0.18 }}
+														className="inline-block tabular-nums"
+													>
+														{remainingMessageChars}
+													</motion.span>
+												</AnimatePresence>{" "}
+												characters required
 											</span>
 										) : (
 											""
