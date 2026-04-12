@@ -131,8 +131,6 @@ export async function POST(req: Request) {
 
 		const safeName = escapeHtml(name);
 		const safeEmail = escapeHtml(email);
-		const safeService = escapeHtml(prettyService);
-		const safeSubject = escapeHtml(subject);
 		const safeMessage = escapeHtml(message);
 
 		const html = `
@@ -141,15 +139,16 @@ export async function POST(req: Request) {
 				background-color: #0b0b0c;
 				color: #f5f5f6;
 				padding: 28px;
-				border-radius: 14px;
-				max-width: 680px;
-				margin: 24px auto;
+				border-radius: 0;
+				width: 100%;
+				margin: 0;
+				box-sizing: border-box;
 				border: 1px solid rgba(255,255,255,0.08);
 				box-shadow: 0 14px 34px rgba(0,0,0,0.45);
 			">
-				<div style="margin: 0 0 14px;">
+				<div style="margin: 0 0 20px;">
 					<div style="
-						font-size: 18px;
+						font-size: 24px;
 						font-weight: 800;
 						letter-spacing: -0.02em;
 						margin: 0;
@@ -158,24 +157,22 @@ export async function POST(req: Request) {
 						NEW MESSAGE
 					</div>
 					<div style="
-						margin-top: 6px;
-						font-size: 12px;
+						margin-top: 10px;
+						font-size: 13px;
+						font-weight: 700;
 						line-height: 1.6;
-						color: rgba(245,245,246,0.62);
+						color: rgba(245,245,246,0.82);
+						padding-bottom: 18px;
 					">
-						Sent from portfolio contact form
+						Sent from the portfolio contact form
 					</div>
 				</div>
 
 				<div style="margin: 0 0 14px;">
-					<div style="
-						font-size: 11px;
-						font-weight: 900;
-						letter-spacing: 0.12em;
-						text-transform: uppercase;
-						color: rgba(245,245,246,0.62);
-						margin: 0 0 6px;
-					">
+					<div style="display:flex;align-items:center;gap:7px;font-size:15px;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,245,246,0.62);margin:0 0 6px;">
+						<span style="display:inline-flex;align-items:center;">
+							<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:#e8e8ea;opacity:0.82;vertical-align:middle;" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="3"/><path d="m3 6 8.6 7.13a2 2 0 0 0 2.53 0L23 6"/></svg>
+						</span>
 						EMAIL
 					</div>
 					<div style="font-size: 14px; line-height: 1.6; color: rgba(245,245,246,0.92);">
@@ -184,48 +181,32 @@ export async function POST(req: Request) {
 				</div>
 
 				<div style="margin: 0 0 14px;">
-					<div style="
-						font-size: 11px;
-						font-weight: 900;
-						letter-spacing: 0.12em;
-						text-transform: uppercase;
-						color: rgba(245,245,246,0.62);
-						margin: 0 0 6px;
-					">
+					<div style="display:flex;align-items:center;gap:7px;font-size:15px;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,245,246,0.62);margin:0 0 6px;">
+						<span style="display:inline-flex;align-items:center;">
+							<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:#e8e8ea;opacity:0.82;vertical-align:middle;" viewBox="0 0 24 24"><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M9 8V6a3 3 0 1 1 6 0v2"/></svg>
+						</span>
 						SERVICE
 					</div>
 					<div style="font-size: 14px; line-height: 1.6; color: rgba(245,245,246,0.92);">
-						${safeService}
-					</div>
-				</div>
-
 				<div style="margin: 0 0 18px;">
-					<div style="
-						font-size: 11px;
-						font-weight: 900;
-						letter-spacing: 0.12em;
-						text-transform: uppercase;
-						color: rgba(245,245,246,0.62);
-						margin: 0 0 6px;
-					">
-						SUBJECT
+					<div style="display:flex;align-items:center;gap:7px;font-size:15px;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,245,246,0.62);margin:0 0 10px;">
+						<span style="display:inline-flex;align-items:center;">
+							<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:#e8e8ea;opacity:0.82;vertical-align:middle;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>
+						</span>
+						MESSAGE
 					</div>
-					<div style="font-size: 14px; line-height: 1.6; color: rgba(245,245,246,0.92);">
-						${safeSubject}
+					<div style="color: rgba(245,245,246,0.90); font-size: 14px; line-height: 1.7; white-space: pre-line;">
+						${safeMessage}
 					</div>
 				</div>
-
-				<hr style="border: none; border-top: 1px solid rgba(255,255,255,0.10); margin: 22px 0;" />
-
-				<div style="margin: 0;">
-					<div style="
-						font-size: 11px;
-						font-weight: 900;
-						letter-spacing: 0.12em;
-						text-transform: uppercase;
-						color: rgba(245,245,246,0.62);
-						margin: 0 0 10px;
-					">
+						</span>
+				<div style="margin-top: 18px; font-size: 13px; font-weight: 600; color: rgba(245,245,246,0.82);">
+					Sent from the portfolio contact form
+				</div>
+				<div style="margin-top: 8px; font-size: 12px; color: rgba(245,245,246,0.62);">
+					&copy; ${new Date().getFullYear()} Jordan Example. All rights reserved.
+				</div>
+				<div style="display:none;">${safeName}</div>
 						MESSAGE
 					</div>
 					<div style="
@@ -244,8 +225,8 @@ export async function POST(req: Request) {
 					</div>
 				</div>
 
-				<div style="margin-top: 22px; font-size: 12px; color: rgba(245,245,246,0.55);">
-					Sent from portfolio contact form
+				<div style="margin-top: 22px; font-size: 12px; font-weight: 600; color: rgba(245,245,246,0.72);">
+					Sent from the portfolio contact form
 				</div>
 				<div style="display:none;">${safeName}</div>
 			</div>
