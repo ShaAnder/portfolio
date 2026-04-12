@@ -7,6 +7,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 
 import { SiteHeader } from "@/features/navigation/SiteHeader";
 import { MobileNav } from "@/features/navigation/MobileNav";
+import { ScrollToTopButton } from "@/features/navigation/ScrollToTopButton";
 import { ParticleNetworkBackground } from "@/features/particle-network/ParticleNetworkBackground";
 import { ThemeToggle } from "@/features/theme/ThemeToggle";
 import { ThemeProvider } from "@/features/theme/ThemeProvider";
@@ -96,6 +97,7 @@ export default function RootLayout({
 						<div className="fixed top-4 right-4 z-40 flex items-center gap-2">
 							<ThemeToggle />
 						</div>
+						<ScrollToTopButton />
 
 						<main className="mx-auto w-full max-w-6xl px-4 lg:pl-24 lg:pr-8 xl:max-w-7xl 2xl:max-w-screen-2xl 2xl:pl-28 2xl:pr-12">
 							{children}
