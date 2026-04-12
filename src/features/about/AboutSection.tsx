@@ -17,7 +17,7 @@ import { buttonVariants } from "@/components/ui/button-variants";
 const ABOUT_PARAGRAPHS = [
 	"I’m Shaun, a junior full stack developer based in Ireland, currently looking for remote or hybrid roles across Ireland and the UK.",
 	"I’ve always loved building things. That started with learning to solder when I was younger and turned into a long-running interest in IT, which naturally led me into software development.",
-	"I’m most at home with React, Next.js, and TypeScript, and I’m comfortable working end-to-end with Django and Supabase. I’m also gaining hands-on experience with Salesforce (Apex + LWC).",
+	"I’m most at home with React, Next.js, and TypeScript, and I’m comfortable working end-to-end with Django and Supabase.",
 	"I enjoy building production-style web apps where the experience feels calm and intentional: clean UI, accessible patterns, and code that’s straightforward to maintain.",
 	"I’m the kind of developer who cares about the “last 10%” too: responsive layout, performance, and the small interactions that make a product feel polished.",
 	"This portfolio showcases current industry knowledge, portfolio pieces, freelance work as well as experimental projects. Please browse until your heart is content.",
@@ -64,7 +64,8 @@ export function AboutSection({ className }: { className?: string }) {
 		<div
 			className={cn(
 				"flex h-full min-h-0 flex-col",
-				"lg:flex-row lg:items-start lg:gap-10",
+				"lg:mx-auto lg:w-full lg:max-w-6xl",
+				"lg:flex-row lg:items-center lg:justify-center lg:gap-10",
 				className,
 			)}
 		>
@@ -86,7 +87,7 @@ export function AboutSection({ className }: { className?: string }) {
 				</div>
 			</div>
 
-			<div className="flex h-full min-h-0 flex-1 flex-col lg:h-auto">
+			<div className="flex h-full min-h-0 flex-1 flex-col lg:h-auto lg:flex-none lg:w-[min(48rem,52vw)]">
 				<div
 					ref={contentRef}
 					className={cn(

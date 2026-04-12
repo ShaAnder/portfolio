@@ -33,9 +33,9 @@ import { cn } from "@/lib/utils";
 function statusLabel(status: Project["status"]) {
 	switch (status) {
 		case "planned":
-			return "Planned";
+			return "In development";
 		case "building":
-			return "Building";
+			return "In development";
 		case "shipped":
 			return "Shipped";
 		default:
@@ -69,7 +69,7 @@ export function ProjectDetailsDialog({
 			) : (
 				<DialogTrigger render={<Button size="sm" />}>Details</DialogTrigger>
 			)}
-			<DialogContent className="max-w-2xl">
+			<DialogContent className="max-w-xl">
 				<DialogHeader>
 					<div className="flex items-start justify-between gap-3 pr-10">
 						<DialogTitle>{project.name}</DialogTitle>
@@ -78,7 +78,7 @@ export function ProjectDetailsDialog({
 					<DialogDescription>{project.tagline}</DialogDescription>
 				</DialogHeader>
 
-				<div className="max-h-[70dvh] space-y-5 overflow-y-auto px-4 pb-4">
+				<div className="max-h-[70dvh] space-y-4 overflow-y-auto px-4 pb-4">
 					<p className="text-muted-foreground">{project.description}</p>
 
 					<div className="flex flex-wrap gap-2">

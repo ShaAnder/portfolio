@@ -47,7 +47,7 @@ export const metadata: Metadata = {
 		template: "%s | Shaun Anderton",
 	},
 	description:
-		"Junior full stack developer portfolio: React, Next.js, TypeScript, Django, Supabase, and Salesforce (Apex/LWC).",
+		"Junior full stack developer portfolio: React, Next.js, TypeScript, Django, Supabase, and PostgreSQL.",
 };
 
 config.autoAddCss = false;
@@ -97,7 +97,7 @@ export default function RootLayout({
 							<ThemeToggle />
 						</div>
 
-						<main className="mx-auto max-w-6xl px-4 lg:pl-24 lg:pr-8">
+						<main className="mx-auto w-full max-w-6xl px-4 lg:pl-24 lg:pr-8 xl:max-w-7xl 2xl:max-w-screen-2xl 2xl:pl-28 2xl:pr-12">
 							{children}
 						</main>
 					</div>

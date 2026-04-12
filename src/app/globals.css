@@ -43,6 +43,14 @@
 	--color-chart-3: var(--chart-3);
 	--color-chart-2: var(--chart-2);
 	--color-chart-1: var(--chart-1);
+	--color-skill-red-1: var(--skill-red-1);
+	--color-skill-red-2: var(--skill-red-2);
+	--color-skill-yellow-1: var(--skill-yellow-1);
+	--color-skill-yellow-2: var(--skill-yellow-2);
+	--color-skill-green-1: var(--skill-green-1);
+	--color-skill-green-2: var(--skill-green-2);
+	--color-skill-blue-1: var(--skill-blue-1);
+	--color-skill-blue-2: var(--skill-blue-2);
 	--color-ring: var(--ring);
 	--color-input: var(--input);
 	--color-border: var(--border);
@@ -92,11 +100,31 @@
 	--border: oklch(0.922 0 0);
 	--input: oklch(0.922 0 0);
 	--ring: oklch(0.708 0 0);
-	--chart-1: oklch(0.87 0 0);
-	--chart-2: oklch(0.556 0 0);
-	--chart-3: oklch(0.439 0 0);
-	--chart-4: oklch(0.371 0 0);
-	--chart-5: oklch(0.269 0 0);
+	/*
+		Chart tokens
+		------------
+		Used for small accent visuals (e.g. skill meters). Keep them vibrant but not neon.
+		These are theme primitives (not component-specific hard-coded colors).
+	*/
+	--chart-1: oklch(0.69 0.22 20); /* warm red/pink */
+	--chart-2: oklch(0.74 0.18 55); /* orange */
+	--chart-3: oklch(0.82 0.16 85); /* amber */
+	--chart-4: oklch(0.74 0.15 170); /* teal */
+	--chart-5: oklch(0.66 0.18 265); /* violet */
+	/*
+		Skills gradients
+		----------------
+		Soft gradients used for skill meters per category.
+		Defined as tokens so components don't embed raw hex values.
+	*/
+	--skill-red-1: #ff5d6c;
+	--skill-red-2: #ff9a7a;
+	--skill-yellow-1: #ffd24a;
+	--skill-yellow-2: #ffef9a;
+	--skill-green-1: #28c76f;
+	--skill-green-2: #7be8b7;
+	--skill-blue-1: #2a8cff;
+	--skill-blue-2: #7cc7ff;
 	--radius: 0.625rem;
 	--sidebar: oklch(0.985 0 0);
 	--sidebar-foreground: oklch(0.145 0 0);
@@ -171,11 +199,11 @@ html.dark {
 	--border: oklch(1 0 0 / 10%);
 	--input: oklch(1 0 0 / 15%);
 	--ring: oklch(0.556 0 0);
-	--chart-1: oklch(0.87 0 0);
-	--chart-2: oklch(0.556 0 0);
-	--chart-3: oklch(0.439 0 0);
-	--chart-4: oklch(0.371 0 0);
-	--chart-5: oklch(0.269 0 0);
+	--chart-1: oklch(0.78 0.22 20);
+	--chart-2: oklch(0.8 0.18 55);
+	--chart-3: oklch(0.86 0.16 85);
+	--chart-4: oklch(0.8 0.15 170);
+	--chart-5: oklch(0.76 0.18 265);
 	--sidebar: oklch(0.205 0 0);
 	--sidebar-foreground: oklch(0.985 0 0);
 	--sidebar-primary: oklch(0.488 0.243 264.376);

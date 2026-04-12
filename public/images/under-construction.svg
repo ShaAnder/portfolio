@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Under construction">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a" stop-opacity="0.12"/>
+      <stop offset="0.5" stop-color="#0f172a" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#0f172a" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="stripe" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#64748b" stop-opacity="0.35"/>
+      <stop offset="0.5" stop-color="#94a3b8" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#64748b" stop-opacity="0.35"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+
+  <!-- subtle diagonal stripes -->
+  <g opacity="0.55">
+    <path d="M-300 980 L-220 900 L380 900 L300 980 Z" fill="url(#stripe)"/>
+    <path d="M-120 980 L-40 900 L560 900 L480 980 Z" fill="url(#stripe)"/>
+    <path d="M60 980 L140 900 L740 900 L660 980 Z" fill="url(#stripe)"/>
+    <path d="M240 980 L320 900 L920 900 L840 980 Z" fill="url(#stripe)"/>
+    <path d="M420 980 L500 900 L1100 900 L1020 980 Z" fill="url(#stripe)"/>
+    <path d="M600 980 L680 900 L1280 900 L1200 980 Z" fill="url(#stripe)"/>
+    <path d="M780 980 L860 900 L1460 900 L1380 980 Z" fill="url(#stripe)"/>
+    <path d="M960 980 L1040 900 L1640 900 L1560 980 Z" fill="url(#stripe)"/>
+  </g>
+
+  <!-- center label -->
+  <g>
+    <rect x="380" y="330" width="840" height="240" rx="28" fill="#0f172a" opacity="0.08"/>
+    <rect x="380" y="330" width="840" height="240" rx="28" fill="#ffffff" opacity="0.06"/>
+
+    <g opacity="0.75">
+      <path d="M800 382c-38 0-69 31-69 69v5c0 5 4 9 9 9h120c5 0 9-4 9-9v-5c0-38-31-69-69-69Zm-45 65c2-24 22-43 45-43s43 19 45 43H755Z" fill="#0f172a"/>
+      <path d="M800 485c-44 0-80 36-80 80 0 5 4 9 9 9h142c5 0 9-4 9-9 0-44-36-80-80-80Zm-61 71c4-32 31-58 61-58s57 26 61 58H739Z" fill="#0f172a"/>
+    </g>
+
+    <text x="800" y="456" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="52" font-weight="700" fill="#0f172a" opacity="0.78">
+      Under construction
+    </text>
+    <text x="800" y="510" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="22" font-weight="500" fill="#0f172a" opacity="0.55">
+      Screenshots and write-up coming soon
+    </text>
+  </g>
+</svg>

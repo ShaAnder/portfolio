@@ -144,16 +144,6 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 						View code
 					</a>
 				) : null}
-				{project.links.salesforceDemo ? (
-					<a
-						className={buttonVariants()}
-						href={project.links.salesforceDemo}
-						target="_blank"
-						rel="noreferrer"
-					>
-						Salesforce demo
-					</a>
-				) : null}
 			</div>
 		</div>
 	);
