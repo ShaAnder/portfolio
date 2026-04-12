@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Shaun Anderton – Portfolio
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Welcome to my personal portfolio site! This project is built with Next.js and
+showcases my work, skills, and background as a developer and creative. The site
+is designed to be clean, modern, and easy to navigate, with each section
+highlighting a different aspect of my experience.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## About This Project
 
-## Learn More
+This is a single-page application (SPA) using the Next.js app directory. The
+layout is organized into clear, scrollable sections:
 
-To learn more about Next.js, take a look at the following resources:
+- **Hero**: The landing section with my profile image, a short intro, and quick
+  links to my socials and resume.
+- **About**: A brief overview of who I am, my background, and what drives me.
+- **Skills**: A visual breakdown of my technical skills and tools I use.
+- **Projects**: Highlights of selected projects, each with a summary and links
+  for more details.
+- **Testimonials**: Feedback and endorsements from people I've worked with.
+- **Contact**: A form for visitors to reach out directly. Messages are sent to
+  my email and you'll get a confirmation when your message is delivered.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How Sections Work
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Each section is implemented as a React component and imported into the main
+HomePage. The layout uses consistent spacing and responsive design, so it looks
+great on any device. The `Section` component is used to wrap each area,
+providing padding and alignment.
 
-## Deploy on Vercel
+- Navigation is smooth and each section is easy to find.
+- The contact form uses serverless API routes to securely send messages to my
+  inbox.
+- Project and testimonial data are managed in simple TypeScript files for easy
+  updates.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js (App Router)
+- React 19
+- Tailwind CSS
+- TypeScript
+- Nodemailer (for contact form email delivery)
+
+## Customization
+
+All content, images, and data are easy to update. Just edit the files in the
+`src/data` and `public/images` folders, or update the section components in
+`src/features`.
+
+## License
+
+This project is for personal portfolio use. Feel free to take inspiration
+however.
+
+---
+
+Thanks for visiting my portfolio!
