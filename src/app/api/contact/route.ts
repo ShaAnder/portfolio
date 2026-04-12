@@ -218,7 +218,6 @@ export async function POST(req: Request) {
 			);
 		}
 
-		// Use the polished template from your local preview page
 		const html = buildEmailHtml({
 			name,
 			email,
