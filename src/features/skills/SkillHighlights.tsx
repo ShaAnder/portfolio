@@ -254,7 +254,7 @@ function SkillHighlightItem({
 						data-skill-card
 						type="button"
 						className={cn(
-							"group relative w-full h-24 rounded-lg border p-4 text-left transition-colors",
+							"group relative w-full h-24 rounded-lg border p-4 text-left transition-colors bg-black/10",
 							"hover:bg-muted/20",
 							FOCUS_RING,
 						)}

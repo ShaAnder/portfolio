@@ -132,7 +132,7 @@ export function HeroSection() {
 	);
 
 	const socialButtonClassName =
-		"size-11 rounded-full! border border-border! transition-transform hover:-translate-y-0.5 hover:scale-[1.04] hover:ring-4 hover:ring-ring/10 motion-reduce:transform-none";
+		"size-11 rounded-full! border border-border! bg-black/10 transition-transform hover:-translate-y-0.5 hover:scale-[1.04] hover:ring-4 hover:ring-ring/10 motion-reduce:transform-none";
 	const socialIconClassName = "size-5! md:size-6!";
 
 	return (
@@ -151,7 +151,7 @@ export function HeroSection() {
 						>
 							<div
 								aria-hidden="true"
-								className="absolute -inset-3 rounded-full bg-black/27 blur-xl transition-colors duration-700 dark:bg-white/13 lg:bg-black/30 lg:dark:bg-white/15"
+								className="absolute -inset-3 rounded-full bg-black/27 blur-xl transition-colors duration-700 lg:bg-black/30"
 							/>
 
 							<div className="relative size-full overflow-hidden rounded-full border border-border">
@@ -283,7 +283,9 @@ export function HeroSection() {
 									size: "icon-lg",
 									className: socialButtonClassName,
 								})}
-								href="/"
+								href="https://github.com/ShaAnder"
+								target="_blank"
+								rel="noopener noreferrer"
 								aria-label="GitHub"
 							>
 								<FontAwesomeIcon
@@ -297,7 +299,9 @@ export function HeroSection() {
 									size: "icon-lg",
 									className: socialButtonClassName,
 								})}
-								href="/"
+								href="https://www.linkedin.com/in/shaander/"
+								target="_blank"
+								rel="noopener noreferrer"
 								aria-label="LinkedIn"
 							>
 								<FontAwesomeIcon
@@ -305,34 +309,36 @@ export function HeroSection() {
 									className={socialIconClassName}
 								/>
 							</Link>
-							<Link
-								className={buttonVariants({
-									variant: "ghost",
-									size: "icon-lg",
-									className: socialButtonClassName,
-								})}
-								href="/"
-								aria-label="Twitter"
-							>
-								<FontAwesomeIcon
-									icon={faXTwitter}
-									className={socialIconClassName}
-								/>
-							</Link>
-							<Link
-								className={buttonVariants({
-									variant: "ghost",
-									size: "icon-lg",
-									className: socialButtonClassName,
-								})}
-								href="/"
-								aria-label="YouTube"
-							>
-								<FontAwesomeIcon
-									icon={faYoutube}
-									className={socialIconClassName}
-								/>
-							</Link>
+							{/*
+							   <Link
+								   className={buttonVariants({
+									   variant: "ghost",
+									   size: "icon-lg",
+									   className: socialButtonClassName,
+								   })}
+								   href="/"
+								   aria-label="Twitter"
+							   >
+								   <FontAwesomeIcon
+									   icon={faXTwitter}
+									   className={socialIconClassName}
+								   />
+							   </Link>
+							   <Link
+								   className={buttonVariants({
+									   variant: "ghost",
+									   size: "icon-lg",
+									   className: socialButtonClassName,
+								   })}
+								   href="/"
+								   aria-label="YouTube"
+							   >
+								   <FontAwesomeIcon
+									   icon={faYoutube}
+									   className={socialIconClassName}
+								   />
+							   </Link>
+							   */}
 						</div>
 					</div>
 				</div>

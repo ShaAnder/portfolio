@@ -72,7 +72,7 @@ export function AboutSection({ className }: { className?: string }) {
 			{/* Large-screen image column (image on the left, opposite the Hero layout). */}
 			<div className="hidden lg:block">
 				<div
-					className="relative w-[min(22rem,28vw)] overflow-hidden rounded-xl border border-border bg-card lg:h-72"
+					className="relative w-[min(22rem,28vw)] overflow-hidden rounded-xl border border-border bg-black/10 lg:h-72"
 					style={
 						textBlockHeight ? { height: `${textBlockHeight}px` } : undefined
 					}
@@ -91,7 +91,7 @@ export function AboutSection({ className }: { className?: string }) {
 				<div
 					ref={contentRef}
 					className={cn(
-						"relative max-w-3xl flex-1 min-h-0 space-y-4 text-muted-foreground leading-relaxed",
+						"relative max-w-3xl flex-1 min-h-0 space-y-4 text-muted-foreground leading-relaxed bg-black/10 rounded-xl p-6",
 						bodyTextSizeClass,
 						"lg:flex-none lg:min-h-fit",
 						"overflow-hidden",
@@ -133,7 +133,7 @@ export function AboutSection({ className }: { className?: string }) {
 
 								<div
 									className={cn(
-										"max-h-[70dvh] space-y-4 overflow-y-auto px-4 pb-4 text-muted-foreground leading-relaxed",
+										"max-h-[70dvh] space-y-4 overflow-y-auto px-4 pb-4 text-muted-foreground leading-relaxed bg-black/10 rounded-xl",
 										bodyTextSizeClass,
 									)}
 								>
@@ -141,7 +141,7 @@ export function AboutSection({ className }: { className?: string }) {
 										<p key={text}>{text}</p>
 									))}
 
-									<div className="relative aspect-video w-full overflow-hidden rounded-lg border border-border bg-card">
+									<div className="relative aspect-video w-full overflow-hidden rounded-lg border border-border bg-black/10">
 										<Image
 											src="/images/about.jpg"
 											alt="About Shaun"
@@ -158,7 +158,7 @@ export function AboutSection({ className }: { className?: string }) {
 
 				{/* Tablet-only image at the bottom (cropped). */}
 				<div className="hidden md:block lg:hidden">
-					<div className="relative mt-4 h-64 w-full shrink-0 overflow-hidden rounded-xl border border-border bg-card">
+					<div className="relative mt-4 h-64 w-full shrink-0 overflow-hidden rounded-xl border border-border bg-black/10">
 						<Image
 							src="/images/about.jpg"
 							alt="About Shaun"

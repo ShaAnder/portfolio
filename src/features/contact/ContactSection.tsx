@@ -163,7 +163,7 @@ export function ContactSection({ className }: { className?: string }) {
 						<CardContent className="flex flex-col py-2">
 							<div className="space-y-10">
 								<div className="grid grid-cols-[auto_1fr] items-center gap-6">
-									<div className="flex size-14 items-center justify-center rounded-md border border-border bg-background/40">
+									<div className="flex size-14 items-center justify-center rounded-md border border-border bg-black/10">
 										<Phone
 											className="size-6 text-foreground/80"
 											aria-hidden="true"
@@ -183,7 +183,7 @@ export function ContactSection({ className }: { className?: string }) {
 								</div>
 
 								<div className="grid grid-cols-[auto_1fr] items-center gap-6">
-									<div className="flex size-14 items-center justify-center rounded-md border border-border bg-background/40">
+									<div className="flex size-14 items-center justify-center rounded-md border border-border bg-black/10">
 										<MapPin
 											className="size-6 text-foreground/80"
 											aria-hidden="true"
@@ -200,7 +200,7 @@ export function ContactSection({ className }: { className?: string }) {
 								</div>
 
 								<div className="grid grid-cols-[auto_1fr] items-center gap-6">
-									<div className="flex size-14 items-center justify-center rounded-md border border-border bg-background/40">
+									<div className="flex size-14 items-center justify-center rounded-md border border-border bg-black/10">
 										<Mail
 											className="size-6 text-foreground/80"
 											aria-hidden="true"
@@ -224,7 +224,7 @@ export function ContactSection({ className }: { className?: string }) {
 				</div>
 
 				<div className="flex w-full flex-1 xl:w-[58%] max-w-full md:max-w-3xl xl:max-w-3xl 2xl:max-w-4xl">
-					<Card className="bg-transparent ring-0 w-full">
+					<Card className="bg-black/10 ring-0 w-full">
 						<CardContent className="py-2">
 							<form onSubmit={onSubmit} className="space-y-2 sm:space-y-3">
 								<div className="grid gap-2 sm:gap-3 sm:grid-cols-2">
