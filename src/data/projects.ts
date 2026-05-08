@@ -6,9 +6,6 @@ export type ProjectStatus = "planned" | "building" | "shipped";
 	This file is the content source for:
 	- the homepage Projects grid
 	- the statically generated project detail pages (`/projects/[slug]`)
-
-	Keeping it as typed data (instead of hard-coded in components) makes the UI
-	consistent, easier to update, and easier to validate with TypeScript.
 */
 
 export type ProjectLinks = {
@@ -18,8 +15,8 @@ export type ProjectLinks = {
 };
 
 export type ProjectImages = {
-	hero: string;
-	gallery?: string[];
+	hero: string; // required
+	gallery?: string[]; // optional array for carousel
 };
 
 export type Project = {
@@ -72,30 +69,42 @@ export const projects: Project[] = [
 	{
 		slug: "fitforge",
 		name: "FitForge",
-		tagline: "Fitness + habit tracking with charts and calendar logging",
+		tagline:
+			"Mobile workout tracker with streaks & customizable daily reminders",
 		description:
-			"A polished, mobile-first fitness tracker to log workouts and habits, set goals, and visualize progress over time.",
+			"A clean, modern React Native fitness app for logging workouts, tracking streaks, and staying consistent. Features user-selectable daily reminders, clean UI, and Supabase backend.",
 		stack: [
-			"Next.js",
+			"React Native",
+			"Expo",
 			"TypeScript",
 			"Tailwind",
-			"shadcn/ui",
 			"Supabase",
-			"PostgreSQL",
+			"Expo Notifications",
 		],
 		features: [
-			"Workout logging (sets/reps/weight)",
-			"Habit streak calendar",
-			"Progress charts",
-			"Goals and weekly targets",
+			"Workout logging with sets, reps & weight",
+			"Streak tracking & calendar",
+			"Custom daily reminders (Workout + Streak)",
+			"User-selectable reminder times",
+			"Secure auth & profile management",
+			"Dark mode + accent color themes",
 		],
-		highlights: ["Frontend-heavy UI patterns: forms, calendar, charts"],
-		status: "planned",
+		highlights: [
+			"Fully functional mobile app with push notifications",
+			"Clean architecture & smooth UX",
+			"Production-ready reminder system",
+		],
+		status: "shipped",
 		links: {
-			caseStudy: "/projects/fitforge",
+			github: "https://github.com/ShaAnder/fitforge",
 		},
 		images: {
-			hero: "/projects/fitforge/hero.png",
+			hero: "/projects/fitforge/home.png", // Main hero image
+			gallery: [
+				"/projects/fitforge/log-workout.png",
+				"/projects/fitforge/settings.png",
+				"/projects/fitforge/library.png",
+			],
 		},
 	},
 	{
@@ -165,13 +174,13 @@ export const projects: Project[] = [
 		name: "ReactDiver",
 		tagline: "React playground for motion, UI polish, and micro-interactions",
 		description:
-			"A small React-first project focused on delightful UI: motion, transitions, responsive layout, and accessible components. Built as a sandbox to iterate quickly and ship clean patterns.",
+			"A small React-first project focused on delightful UI: motion, transitions, responsive layout, and accessible components.",
 		stack: ["React", "Next.js", "TypeScript", "Tailwind", "Framer Motion"],
 		features: [
 			"Motion-led UI interactions",
 			"Reusable component patterns",
 			"Responsive layouts tuned per viewport",
-			"Accessibility-first focus (keyboard + reduced motion)",
+			"Accessibility-first focus",
 		],
 		highlights: [
 			"Designed to demonstrate frontend craft and detail",
@@ -191,7 +200,7 @@ export const projects: Project[] = [
 		tagline:
 			"Trip planning companion with itineraries, maps, and shared checklists",
 		description:
-			"A travel planning app to build itineraries, save places, track budgets, and share plans with friends. Focuses on clean UX, real-world data modeling, and mobile-friendly flows.",
+			"A travel planning app to build itineraries, save places, track budgets, and share plans with friends.",
 		stack: ["Next.js", "TypeScript", "Tailwind", "shadcn/ui", "PostgreSQL"],
 		features: [
 			"Trips with day-by-day itineraries",
@@ -208,7 +217,7 @@ export const projects: Project[] = [
 			caseStudy: "/projects/travelbuddy",
 		},
 		images: {
-			hero: "/images/under-construction.svg",
+			hero: "/projects/travelbuddy/hero.png",
 		},
 	},
 	{
@@ -216,7 +225,7 @@ export const projects: Project[] = [
 		name: "CommercePilot",
 		tagline: "E-commerce ops dashboard for products, orders, and fulfillment",
 		description:
-			"An e-commerce operations dashboard focused on the workflows behind the store: order triage, fulfillment statuses, inventory notes, and customer support tooling.",
+			"An e-commerce operations dashboard focused on the workflows behind the store.",
 		stack: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL"],
 		features: [
 			"Order list + detail views",
@@ -256,6 +265,14 @@ export const projects: Project[] = [
 ];
 
 export function getProjectBySlug(slug: string): Project | undefined {
-	// Small helper to keep routing/pages clean.
 	return projects.find((p) => p.slug === slug);
 }
+
+export const sortedProjects = [...projects].sort((a, b) => {
+	const order: Record<ProjectStatus, number> = {
+		shipped: 0,
+		building: 1,
+		planned: 2,
+	};
+	return order[a.status] - order[b.status];
+});

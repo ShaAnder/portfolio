@@ -4,7 +4,7 @@ import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { projects } from "@/data/projects";
+import { sortedProjects } from "@/data/projects";
 import { cn } from "@/lib/utils";
 import { useMediaQuery, useViewportHeight } from "@/lib/hooks/responsive";
 import { useAutoPageSize } from "@/lib/hooks/useAutoPageSize";
@@ -16,6 +16,12 @@ export function ProjectHighlights({ className }: { className?: string }) {
 	const viewportHeight = useViewportHeight();
 	const isDesktop = useMediaQuery("(min-width: 769px)");
 
+	// Only show shipped projects
+	const shippedProjects = React.useMemo(
+		() => sortedProjects.filter((p) => p.status === "shipped"),
+		[],
+	);
+
 	const cardsPerRow = isDesktop ? 2 : 1;
 	const maxPageSize = isDesktop ? 4 : 3;
 
@@ -26,7 +32,7 @@ export function ProjectHighlights({ className }: { className?: string }) {
 		viewportHeight,
 	});
 
-	const totalPages = Math.max(1, Math.ceil(projects.length / pageSize));
+	const totalPages = Math.max(1, Math.ceil(shippedProjects.length / pageSize));
 	const pageTransitionMs = 250;
 
 	const [page, setPage] = React.useState(0);
@@ -38,8 +44,8 @@ export function ProjectHighlights({ className }: { className?: string }) {
 
 	const pageProjects = React.useMemo(() => {
 		const start = page * pageSize;
-		return projects.slice(start, start + pageSize);
-	}, [page, pageSize]);
+		return shippedProjects.slice(start, start + pageSize);
+	}, [page, pageSize, shippedProjects]);
 
 	const placeholderCount = Math.max(0, pageSize - pageProjects.length);
 
@@ -94,13 +100,14 @@ export function ProjectHighlights({ className }: { className?: string }) {
 								aria-hidden="true"
 								className="pointer-events-none select-none opacity-0"
 							>
-								<ProjectCard project={projects[0] ?? pageProjects[0]!} />
+								<ProjectCard project={pageProjects[0]!} />
 							</div>
 						))}
 					</motion.div>
 				</AnimatePresence>
 			</div>
 
+			{/* Pagination */}
 			<div
 				ref={paginationRef}
 				className={cn(
@@ -108,7 +115,7 @@ export function ProjectHighlights({ className }: { className?: string }) {
 					totalPages <= 1 && "pointer-events-none opacity-0",
 				)}
 			>
-				{totalPages > 1 ? (
+				{totalPages > 1 && (
 					<>
 						<Button
 							variant="ghost"
@@ -134,7 +141,7 @@ export function ProjectHighlights({ className }: { className?: string }) {
 							<ChevronRight />
 						</Button>
 					</>
-				) : null}
+				)}
 			</div>
 		</div>
 	);

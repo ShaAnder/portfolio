@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { Separator } from "@/components/ui/separator";
-import { getProjectBySlug, projects } from "@/data/projects";
+import { getProjectBySlug, sortedProjects } from "@/data/projects";
 
 /*
 	Project detail page styling notes
@@ -21,7 +21,7 @@ import { getProjectBySlug, projects } from "@/data/projects";
 */
 
 export function generateStaticParams() {
-	return projects.map((p) => ({ slug: p.slug }));
+	return sortedProjects.map((p) => ({ slug: p.slug }));
 }
 
 export function generateMetadata({

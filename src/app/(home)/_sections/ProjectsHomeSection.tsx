@@ -1,5 +1,5 @@
-import { ProjectHighlights } from "@/features/projects/ProjectHighlights";
 import { Section } from "@/components/site/primitives/Section";
+import { ProjectHighlights } from "@/features/projects/ProjectHighlights";
 
 export function ProjectsHomeSection() {
 	return (
