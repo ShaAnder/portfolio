@@ -1,132 +1,55 @@
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import type { Project } from "@/data/projects";
+"use client";
+
 import Image from "next/image";
 import { useState } from "react";
+import type { Project } from "@/data/projects";
+import { cn } from "@/lib/utils";
 
-function statusLabel(status: Project["status"]) {
-	switch (status) {
-		case "planned":
-		case "building":
-			return "In development";
-		case "shipped":
-			return "Shipped";
-		default:
-			return status;
-	}
-}
-
-/*
-	ProjectCard
-	-----------
-	A compact, scannable summary card for the Projects grid.
-
-	This component is intentionally presentational.
-	The interactive wrapper (e.g. `ProjectDetailsDialog`) should live at the callsite
-	so this file remains server-renderable and doesn't pull dialog code into the module.
-
-	Styling choices:
-	- Uses the shared `Card` primitive so surface + spacing are consistent.
-	- The hero image is locked to `aspect-video` for a uniform grid.
-	- Badges use semantic variants so they stay readable in both themes.
-	- Footer buttons are simple inline-flex pills (could be refactored to Button/buttonVariants later).
-*/
+const FALLBACK = "/images/under-construction.svg";
 
 export function ProjectCard({ project }: { project: Project }) {
-	const { hero, gallery = [] } = project.images;
-	const allImages = [hero, ...gallery];
+  const isMobile = project.slug === "fitforge";
+  const [imageFailed, setImageFailed] = useState(false);
+  const hero = !imageFailed && project.images?.hero ? project.images.hero : FALLBACK;
 
-	const [currentIndex, setCurrentIndex] = useState(0);
-
-	const nextImage = () =>
-		setCurrentIndex((prev) => (prev + 1) % allImages.length);
-	const prevImage = () =>
-		setCurrentIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
-
-	const isUnderConstruction = project.status !== "shipped";
-
-	return (
-		<Card
-			data-project-card
-			size="sm"
-			className="group p-0 overflow-hidden transition-all hover:shadow-xl hover:-translate-y-0.5 cursor-pointer bg-zinc-950 border-zinc-800"
-		>
-			{/* Hero Area */}
-			<div className="relative aspect-5/2 w-full overflow-hidden bg-zinc-950 md:aspect-10/3 lg:aspect-2/1">
-				{isUnderConstruction ? (
-					/* Under Construction - Clean & Natural Size */
-					<div className="flex h-full w-full items-center justify-center bg-zinc-300">
-						<Image
-							src="/images/under-construction.svg"
-							alt="Under Construction"
-							fill
-							className="object-contain p-8 opacity-100"
-						/>
-					</div>
-				) : (
-					/* Shipped Projects - Carousel */
-					<>
-						<Image
-							src={allImages[currentIndex]}
-							alt={`${project.name} screenshot`}
-							fill
-							sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-							className="object-contain p-6 transition-transform duration-700 group-hover:scale-105"
-						/>
-
-						<div className="absolute inset-0 bg-linear-to-b from-black/30 via-transparent to-black/70" />
-
-						{allImages.length > 1 && (
-							<>
-								<button
-									onClick={(e) => {
-										e.stopPropagation();
-										prevImage();
-									}}
-									className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white text-4xl font-light opacity-0 group-hover:opacity-100 transition-all z-10"
-								>
-									⟨
-								</button>
-								<button
-									onClick={(e) => {
-										e.stopPropagation();
-										nextImage();
-									}}
-									className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white text-4xl font-light opacity-0 group-hover:opacity-100 transition-all z-10"
-								>
-									⟩
-								</button>
-
-								<div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5 z-10">
-									{allImages.map((_, idx) => (
-										<button
-											key={idx}
-											onClick={(e) => {
-												e.stopPropagation();
-												setCurrentIndex(idx);
-											}}
-											className={`h-1 rounded-full transition-all ${
-												idx === currentIndex
-													? "w-5 bg-white"
-													: "w-1.5 bg-zinc-500 hover:bg-zinc-400"
-											}`}
-										/>
-									))}
-								</div>
-							</>
-						)}
-					</>
-				)}
-			</div>
-
-			<CardContent className="flex items-center justify-between gap-3 py-3 px-4">
-				<CardTitle className="text-lg leading-none truncate">
-					{project.name}
-				</CardTitle>
-				<Badge variant={project.status === "shipped" ? "default" : "secondary"}>
-					{statusLabel(project.status)}
-				</Badge>
-			</CardContent>
-		</Card>
-	);
+  return (
+    <div
+      data-project-card
+      className={cn(
+        "group relative flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-border/60",
+        "bg-card text-card-foreground shadow-sm transition-all duration-300",
+        "hover:-translate-y-1 hover:border-ring/50 hover:shadow-xl",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+      )}
+    >
+      <div className="relative min-h-0 flex-1 overflow-hidden bg-zinc-950">
+        <Image
+          src={hero}
+          alt={`${project.name} application preview`}
+          fill
+          sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw"
+          className={cn(
+            "transition-transform duration-500 group-hover:scale-[1.035]",
+            isMobile ? "object-contain p-3" : "object-cover",
+          )}
+          onError={() => setImageFailed(true)}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+        <span className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/55 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-sm">
+          {isMobile ? "Android app" : project.slug === "relic-hunter-online" ? "Browser game" : "Web app"}
+        </span>
+      </div>
+      <div className="absolute inset-x-0 bottom-0 z-10 p-4 text-white">
+        <div className="flex items-end justify-between gap-2">
+          <div className="min-w-0">
+            <h3 className="truncate text-lg font-semibold">{project.name}</h3>
+            <p className="mt-1 line-clamp-2 text-xs leading-5 text-zinc-200">{project.tagline}</p>
+          </div>
+          <span className="shrink-0 rounded-full border border-white/25 bg-black/40 px-2 py-1 text-[10px]">
+            {project.status === "building" ? "In development" : project.status === "shipped" ? "Released" : "Planned"}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
 }

@@ -3,149 +3,84 @@
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
 import { sortedProjects } from "@/data/projects";
 import { cn } from "@/lib/utils";
-import { useMediaQuery, useViewportHeight } from "@/lib/hooks/responsive";
-import { useAutoPageSize } from "@/lib/hooks/useAutoPageSize";
 import { ProjectCard } from "@/features/projects/ProjectCard";
 import { ProjectDetailsDialog } from "@/features/projects/ProjectDetailsDialog";
-import { Button } from "@/components/ui/button";
+
+// Fixed-size pagination avoids the viewport-measurement issues in the old grid.
+const PAGE_SIZE = 4;
 
 export function ProjectHighlights({ className }: { className?: string }) {
-	const viewportHeight = useViewportHeight();
-	const isDesktop = useMediaQuery("(min-width: 769px)");
+  const visibleProjects = sortedProjects.filter(
+    (project) => project.status === "building" || project.status === "shipped",
+  );
+  const [page, setPage] = React.useState(0);
+  const totalPages = Math.max(1, Math.ceil(visibleProjects.length / PAGE_SIZE));
+  const pageProjects = visibleProjects.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
-	const visibleProjects = React.useMemo(
-		() =>
-			sortedProjects.filter(
-				(p) => p.status === "shipped" || p.status === "building",
-			),
-		[],
-	);
+  React.useEffect(() => {
+    setPage((current) => Math.min(current, totalPages - 1));
+  }, [totalPages]);
 
-	const cardsPerRow = isDesktop ? 2 : 1;
-	const maxPageSize = isDesktop ? 4 : 3;
+  return (
+    <div className={cn("mx-auto w-full max-w-7xl space-y-5", className)}>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={page}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.2 }}
+          className={cn(
+            "grid grid-flow-row-dense auto-rows-[88px] gap-3",
+            "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+          )}
+        >
+          {pageProjects.map((project) => {
+            const isMobile = project.slug === "fitforge";
+            return (
+              <ProjectDetailsDialog
+                key={project.slug}
+                project={project}
+                triggerClassName={cn(
+                  "block min-w-0 cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  // Device-specific heights; other projects remain wide enough for screenshots.
+                  isMobile ? "row-span-5" : "row-span-3",
+                )}
+              >
+                <ProjectCard project={project} />
+              </ProjectDetailsDialog>
+            );
+          })}
+        </motion.div>
+      </AnimatePresence>
 
-	const { pageSize, frameRef, gridRef, paginationRef } = useAutoPageSize({
-		cardsPerRow,
-		maxPageSize,
-		itemSelector: "[data-project-card]",
-		viewportHeight,
-	});
-
-	const totalPages = Math.max(1, Math.ceil(visibleProjects.length / pageSize));
-	const pageTransitionMs = 250;
-
-	const [page, setPage] = React.useState(0);
-	const [direction, setDirection] = React.useState<1 | -1>(1);
-
-	React.useEffect(() => {
-		setPage((current) => Math.min(current, totalPages - 1));
-	}, [totalPages]);
-
-	const pageProjects = React.useMemo(() => {
-		const start = page * pageSize;
-		return visibleProjects.slice(start, start + pageSize);
-	}, [page, pageSize, visibleProjects]);
-
-	const placeholderCount =
-		pageProjects.length > 0 ? Math.max(0, pageSize - pageProjects.length) : 0;
-
-	const paginateTo = React.useCallback(
-		(nextPage: number) => {
-			const clamped = Math.max(0, Math.min(totalPages - 1, nextPage));
-			if (clamped === page) return;
-			setDirection(clamped > page ? 1 : -1);
-			setPage(clamped);
-		},
-		[page, totalPages],
-	);
-
-	return (
-		<div className={cn("w-full", className)}>
-			<div
-				ref={frameRef}
-				className={cn("relative overflow-hidden", totalPages > 1 && "pb-20")}
-			>
-				<AnimatePresence initial={false} custom={direction} mode="wait">
-					<motion.div
-						key={`${page}-${pageSize}`}
-						ref={gridRef}
-						custom={direction}
-						initial={{ opacity: 0, x: direction > 0 ? 48 : -48 }}
-						animate={{ opacity: 1, x: 0 }}
-						exit={{ opacity: 0, x: direction > 0 ? -48 : 48 }}
-						transition={{
-							type: "tween",
-							duration: pageTransitionMs / 1000,
-							ease: "easeOut",
-						}}
-						className={cn(
-							"grid gap-4",
-							"grid-cols-1",
-							"min-[769px]:grid-cols-2",
-						)}
-					>
-						{pageProjects.map((project) => (
-							<ProjectDetailsDialog
-								key={project.slug}
-								project={project}
-								triggerClassName="block"
-							>
-								<ProjectCard project={project} />
-							</ProjectDetailsDialog>
-						))}
-
-						{Array.from({ length: placeholderCount }).map((_, i) => (
-							<div
-								key={`placeholder-${page}-${pageSize}-${i}`}
-								aria-hidden="true"
-								className="pointer-events-none select-none opacity-0"
-							>
-								<ProjectCard project={pageProjects[0]!} />
-							</div>
-						))}
-					</motion.div>
-				</AnimatePresence>
-			</div>
-
-			{/* Pagination */}
-			<div
-				ref={paginationRef}
-				className={cn(
-					"absolute inset-x-0 bottom-8 z-10 flex items-center justify-center gap-2",
-					totalPages <= 1 && "pointer-events-none opacity-0",
-				)}
-			>
-				{totalPages > 1 && (
-					<>
-						<Button
-							variant="ghost"
-							size="icon-sm"
-							onClick={() => paginateTo(page - 1)}
-							disabled={page === 0}
-							aria-label="Previous projects"
-						>
-							<ChevronLeft />
-						</Button>
-
-						<span className="min-w-14 text-center text-xs tabular-nums text-muted-foreground">
-							{page + 1} / {totalPages}
-						</span>
-
-						<Button
-							variant="ghost"
-							size="icon-sm"
-							onClick={() => paginateTo(page + 1)}
-							disabled={page >= totalPages - 1}
-							aria-label="Next projects"
-						>
-							<ChevronRight />
-						</Button>
-					</>
-				)}
-			</div>
-		</div>
-	);
+      {totalPages > 1 && (
+        <nav aria-label="Project gallery pages" className="flex items-center justify-center gap-4">
+          <button
+            type="button"
+            aria-label="Previous project page"
+            disabled={page === 0}
+            onClick={() => setPage((p) => Math.max(0, p - 1))}
+            className="rounded-full border p-2 transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ChevronLeft className="size-4" />
+          </button>
+          <span className="text-sm tabular-nums text-muted-foreground" aria-live="polite">
+            {page + 1} / {totalPages}
+          </span>
+          <button
+            type="button"
+            aria-label="Next project page"
+            disabled={page === totalPages - 1}
+            onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+            className="rounded-full border p-2 transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ChevronRight className="size-4" />
+          </button>
+        </nav>
+      )}
+    </div>
+  );
 }

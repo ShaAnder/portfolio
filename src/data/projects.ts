@@ -45,7 +45,14 @@ export const projects: Project[] = [
 		],
 		status: "building",
 		links: { github: "https://github.com/ShaAnder/ping-me-web" },
-		images: { hero: "/projects/ping-me/hero.svg" },
+		images: {
+			hero: "/projects/ping-me/home.png",
+			gallery: [
+				"/projects/ping-me/Create.png",
+				"/projects/ping-me/Dash.png",
+				"/projects/ping-me/Server.png",
+			],
+		},
 	},
 	{
 		slug: "relic-hunter-online",
@@ -64,10 +71,18 @@ export const projects: Project[] = [
 			"Separation of client, shared and server concerns",
 			"Renderer and game-system architecture",
 			"Active work in progress with unfinished multiplayer scope",
+			"Featured gallery artwork is a concept mockup, not an in-game screenshot",
 		],
 		status: "building",
 		links: { github: "https://github.com/ShaAnder/relic-hunter-online" },
-		images: { hero: "/projects/relic-hunter-online/hero.svg" },
+		images: {
+			hero: "/projects/relic-hunter-online/rho-concept.png",
+			gallery: [
+				"/projects/relic-hunter-online/maps.png",
+				"/projects/relic-hunter-online/tutorial.png",
+				"/projects/relic-hunter-online/Character.png",
+			],
+		},
 	},
 	{
 		slug: "fitforge",
@@ -113,9 +128,9 @@ export function getProjectBySlug(slug: string): Project | undefined {
 
 export const sortedProjects = [...projects].sort((a, b) => {
 	const order: Record<ProjectStatus, number> = {
-		shipped: 1,
-		building: 2,
-		planned: 1,
+		shipped: 0,
+		building: 1,
+		planned: 2,
 	};
 	return order[a.status] - order[b.status];
 });

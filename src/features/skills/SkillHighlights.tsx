@@ -8,7 +8,6 @@ import { highlightSkills } from "@/data/skills";
 import { cn } from "@/lib/utils";
 import { FOCUS_RING } from "@/lib/uiClasses";
 import { useMediaQuery, useViewportHeight } from "@/lib/hooks/responsive";
-import { useInViewOnce } from "@/lib/hooks/useInViewOnce";
 import {
 	Dialog,
 	DialogContent,
@@ -234,9 +233,25 @@ function SkillHighlightItem({
 	barCount: number;
 	thickBars: boolean;
 }) {
-	const { setRef, hasBeenInView } = useInViewOnce<HTMLButtonElement>({
-		threshold: 0.35,
-	});
+	const [hasBeenInView, setHasBeenInView] = React.useState(false);
+	const cardRef = React.useRef<HTMLButtonElement | null>(null);
+
+	React.useEffect(() => {
+		const node = cardRef.current;
+		if (!node || hasBeenInView) return;
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry?.isIntersecting) {
+					setHasBeenInView(true);
+					observer.disconnect();
+				}
+			},
+			{ threshold: 0.1 },
+		);
+
+		observer.observe(node);
+		return () => observer.disconnect();
+	}, [hasBeenInView]);
 
 	React.useEffect(() => {
 		if (hasBeenSeen) return;
@@ -258,7 +273,7 @@ function SkillHighlightItem({
 							"hover:bg-muted/20",
 							FOCUS_RING,
 						)}
-						ref={setRef}
+						ref={cardRef}
 						aria-label={`Open details for ${skill.name}`}
 					/>
 				}

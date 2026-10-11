@@ -2,15 +2,15 @@ import { Section } from "@/components/site/primitives/Section";
 import { ProjectHighlights } from "@/features/projects/ProjectHighlights";
 
 export function ProjectsHomeSection() {
-	return (
-		<Section
-			id="projects"
-			title="Projects"
-			className="min-h-0 h-dvh pb-4 md:pb-6 [&>div:last-child]:items-start md:[&>div:last-child]:items-start md:[&>div:last-child>div]:my-auto"
-		>
-			<div className="pt-3 md:pt-0">
-				<ProjectHighlights />
-			</div>
-		</Section>
-	);
+  return (
+    <Section
+      id="projects"
+      title="Projects"
+      className="min-h-dvh h-auto pb-12 md:pb-16 [&>div:last-child]:items-start"
+    >
+      <div className="py-4 md:py-8">
+        <ProjectHighlights />
+      </div>
+    </Section>
+  );
 }
