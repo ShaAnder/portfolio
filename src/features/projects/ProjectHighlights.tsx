@@ -16,9 +16,11 @@ export function ProjectHighlights({ className }: { className?: string }) {
 	const viewportHeight = useViewportHeight();
 	const isDesktop = useMediaQuery("(min-width: 769px)");
 
-	// Only show shipped projects
-	const shippedProjects = React.useMemo(
-		() => sortedProjects.filter((p) => p.status === "shipped"),
+	const visibleProjects = React.useMemo(
+		() =>
+			sortedProjects.filter(
+				(p) => p.status === "shipped" || p.status === "building",
+			),
 		[],
 	);
 
@@ -32,7 +34,7 @@ export function ProjectHighlights({ className }: { className?: string }) {
 		viewportHeight,
 	});
 
-	const totalPages = Math.max(1, Math.ceil(shippedProjects.length / pageSize));
+	const totalPages = Math.max(1, Math.ceil(visibleProjects.length / pageSize));
 	const pageTransitionMs = 250;
 
 	const [page, setPage] = React.useState(0);
@@ -44,10 +46,11 @@ export function ProjectHighlights({ className }: { className?: string }) {
 
 	const pageProjects = React.useMemo(() => {
 		const start = page * pageSize;
-		return shippedProjects.slice(start, start + pageSize);
-	}, [page, pageSize, shippedProjects]);
+		return visibleProjects.slice(start, start + pageSize);
+	}, [page, pageSize, visibleProjects]);
 
-	const placeholderCount = Math.max(0, pageSize - pageProjects.length);
+	const placeholderCount =
+		pageProjects.length > 0 ? Math.max(0, pageSize - pageProjects.length) : 0;
 
 	const paginateTo = React.useCallback(
 		(nextPage: number) => {
