@@ -1,3 +1,5 @@
+export type ProjectDisplayType = "desktop" | "tablet" | "mobile";
+
 export type ProjectStatus = "planned" | "building" | "shipped";
 
 export type ProjectLinks = {
@@ -13,6 +15,7 @@ export type ProjectImages = {
 
 export type Project = {
 	slug: string;
+	displayType: ProjectDisplayType;
 	name: string;
 	tagline: string;
 	description: string;
@@ -27,6 +30,7 @@ export type Project = {
 export const projects: Project[] = [
 	{
 		slug: "ping-me",
+		displayType: "desktop",
 		name: "Ping Me",
 		tagline: "Real-time messaging built with React and TypeScript",
 		description:
@@ -43,7 +47,7 @@ export const projects: Project[] = [
 			"Vitest and React Testing Library coverage",
 			"GitHub Actions lint, build and test workflow",
 		],
-		status: "building",
+		status: "shipped",
 		links: { github: "https://github.com/ShaAnder/ping-me-web" },
 		images: {
 			hero: "/projects/ping-me/home.png",
@@ -56,6 +60,7 @@ export const projects: Project[] = [
 	},
 	{
 		slug: "relic-hunter-online",
+		displayType: "desktop",
 		name: "Relic Hunter Online",
 		tagline: "Browser-based strategy RPG and renderer, under development",
 		description:
@@ -86,6 +91,7 @@ export const projects: Project[] = [
 	},
 	{
 		slug: "fitforge",
+		displayType: "mobile",
 		name: "FitForge",
 		tagline: "Mobile fitness app with authentication, data flows and testing",
 		description:
@@ -109,7 +115,7 @@ export const projects: Project[] = [
 			"React Query and Supabase integration",
 			"Jest and React Native Testing Library",
 		],
-		status: "building",
+		status: "shipped",
 		links: { github: "https://github.com/ShaAnder/fitforge" },
 		images: {
 			hero: "/projects/fitforge/home.png",
